@@ -34,23 +34,25 @@ const CurrentFlow = (props) => {
                         Begin by selecting a starting position in the "Current Move" panel. Then, 
                         from the options provided, select the next movement and repeat to build a flow
                         which will appear here.</p>
-                    : <div id="current-flow-container">
-                        <ul id="current-flow-list">
-                            {props.flow.map((el, index) => {
-                                return (
-                                    <li>
-                                        <i data-index={index} className="fas fa-minus"></i>
-                                        <p>
-                                            <span>{el.callout.keyPhrase} </span>
-                                            <span>{el.callout.direction} </span>
-                                            <span className="callout-command">{el.callout.command}</span>
-                                        </p>
-                                        <img src={el.imgSrc} alt={el.move}></img>
-                                    </li>
-                                )
-                            })}
-                        </ul>
-                      </div>
+                    : <><p className="note">Note: removing a movement from the flow below will also remove all movements that follow it.</p>
+                        <div id="current-flow-container">
+                            <ul id="current-flow-list">
+                                {props.flow.map((el, index) => {
+                                    return (
+                                        <li>
+                                            <i data-index={index} className="fas fa-minus"></i>
+                                            <p>
+                                                <span style={{fontStyle: "italic"}}>{el.callout.keyPhrase} </span>
+                                                <span>{el.callout.direction} </span>
+                                                <span className="callout-command">{el.callout.command}</span>
+                                            </p>
+                                            <img src={el.imgSrc} alt={el.move}></img>
+                                        </li>
+                                    )
+                                })}
+                            </ul>
+                        </div>
+                    </>
                 }
             </div>
         </section>

@@ -7,12 +7,6 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -28,18 +22,10 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 /*Global styles*/
 .reveal {
   opacity: 1;
+  visibility: visible;
 }
 
 /*Header styles*/
@@ -58,10 +44,11 @@ h1#main-title {
 .claws-menu {
   height: 7rem;
   position: absolute;
-  right: 20px;
+  right: 25px;
   transform: rotate(40deg);
   filter: invert(1);
   transition: all 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+  cursor: pointer;
 }
 
 nav {
@@ -71,11 +58,29 @@ nav {
   transition: all 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
   z-index: 10;
   opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  width: 100%;
 }
 
 nav > div {
   display: flex;
-  margin: 1rem;
+}
+
+.btn-page {
+  border: none;
+  display: block;
+  height: 50px;
+  cursor: pointer;
+  width: 100px;
+  border-left: 1px solid black;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.btn-page:hover {
+  color: white;
+  background-color: #e01313c4;
 }
 
 .open-menu {
@@ -87,6 +92,7 @@ nav > div {
 main#home-page {
   display: flex;
   justify-content: space-evenly;
+  margin-bottom: 2rem;
 }
 
   /*Current Move*/
@@ -98,10 +104,8 @@ section#current-flow {
   border-radius: 20px;
   color: white;
   box-shadow: inset 0 0 7px 7px rgba(255, 255, 255, 0.2);
-}
-
-section#current-move {
-  margin-bottom: 2rem;
+  min-height: 400px;
+  margin-top: 2rem;
 }
 
 #current-move > ul {
@@ -165,6 +169,13 @@ section#current-move {
   height: 7rem;
 }
 
+.move-info {
+  display: inline-block;
+  align-self: center;
+  margin-left: 2rem;
+  font-size: 18px;
+}
+
 #next-moves-panel {
   background-color: #c4c4c4;
   padding-bottom: 1rem;
@@ -216,6 +227,7 @@ section#current-move {
   align-self: center;
   font-size: 1.2rem;
   padding: 0 10px;
+  text-align: center;
 }
 
 .callout-command {
@@ -226,16 +238,7 @@ section#current-move {
   height: 5rem;
 }
 
-.para-current-move::before {
-  background-image: url(./assets/Claws-Black.png); 
-  display: inline-block;
-  background-size: 100% 100%;
-  height: 40px;
-  width: 40px;
-  content: "";
-  transform: rotate(80deg);
-}
-
+.para-current-move::before,
 .para-current-move::after {
   background-image: url(./assets/Claws-Black.png); 
   display: inline-block;
@@ -243,17 +246,25 @@ section#current-move {
   height: 40px;
   width: 40px;
   content: "";
-  transform: rotate(10deg);
+}
+
+.para-current-move::before {
+  transform: translateY(14px) rotate(80deg);
+}
+
+.para-current-move::after {
+  transform: translateY(14px) rotate(10deg);
 }
 
   /*Current Flow*/
-section#current-flow {
-  margin-bottom: 2rem;
-}
-
 .para-flow-instr {
   text-indent: 2rem;
   margin-top: 2rem;
+}
+
+.note {
+  text-align: center;
+  padding: 0 1rem;
 }
 
 #current-flow-container {
@@ -264,3 +275,20 @@ section#current-flow {
 #current-flow-list img {
   height: 5rem;
 }
+
+/*Media Queries*/
+
+  /*For Home Page*/
+@media screen and (max-width: 1000px){
+  main#home-page {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  section#current-move, 
+  section#current-flow {
+    width: 60%;
+  }
+}
+
+  

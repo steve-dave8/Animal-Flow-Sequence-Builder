@@ -21,9 +21,9 @@ const Navigation = () => {
             </div>   
         </header>
         <nav>
-            <div><button type="button">Home</button></div>
-            <div><button type="button">Saved Flows</button></div>
-            <div><button type="button">Contact</button></div>        
+            <div><button type="button" className="btn-page" style={{borderLeft: "none"}}>Home</button></div>
+            <div><button type="button" className="btn-page">Saved Flows</button></div>
+            <div><button type="button" className="btn-page">Contact</button></div>        
         </nav></>
     )
 }
