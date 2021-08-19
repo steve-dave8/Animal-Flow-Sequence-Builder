@@ -80,6 +80,11 @@ const CurrentFlow = (props) => {
         genRandomFlow()        
     }
 
+    const reset = () => {
+        props.setMove([])
+        props.setFlow([])
+    }
+
     return (
         <section id="current-flow">
             <h2 id="current-flow-title">Current Flow</h2>
@@ -98,6 +103,12 @@ const CurrentFlow = (props) => {
                         <hr style={{width: "80%"}}/>
                         <FormRandomFlow flowLength={flowLength} setFlowLength={setFlowLength} handleSubmit={handleSubmit} error={error}/>
                         <hr style={{width: "80%"}}/>
+                        <div className="btn-row">
+                            <p className="form-title">Options:</p>
+                            <button type="button" style={{height: "fit-content"}} onClick={reset}>Reset</button>
+                            <button type="button" style={{height: "fit-content"}}>Mirror</button>
+                        </div>
+                        {/* <hr style={{width: "80%"}}/> */}
                         <div id="current-flow-container">
                             <ul id="current-flow-list">
                                 {props.flow.map((el, index) => {

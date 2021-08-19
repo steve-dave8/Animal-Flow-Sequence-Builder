@@ -313,6 +313,13 @@ section#current-flow {
   padding: 0 1rem;
 }
 
+.btn-row {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 16px;
+  align-items: baseline;
+}
+
 #current-flow-container {
   background-color: white;
   display: flex;
