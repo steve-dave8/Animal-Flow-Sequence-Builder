@@ -28,6 +28,20 @@
   visibility: visible;
 }
 
+.hidden {
+  display: none;
+}
+
+.error {
+  font-style: italic;
+  text-align: center;
+  padding: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  width: max-content;
+  margin: 5px auto 0 auto;
+  color: #ffff00;
+}
+
 /*Header styles*/
 header {
   display: flex;
@@ -198,10 +212,18 @@ section#current-flow {
 #current-flow-list {
   list-style: none;
   padding-inline-start: 0;
-  padding: 0.5rem 1rem;
-  max-height: 450px;
   overflow: auto;
   scrollbar-color: #241f20 #717171;
+}
+
+#next-moves-list {
+  padding: 0.5rem 1rem;
+  max-height: 450px;
+}
+
+#current-flow-list {
+  padding: 0 1rem;
+  max-height: 470px;
 }
 
 #next-moves-list > li,
@@ -211,6 +233,14 @@ section#current-flow {
   background-color: #a00303;
   padding: 0.5rem 1rem;
   margin: 0.5rem auto;
+}
+
+#current-flow-list > li:first-child {
+  margin-top: 0;
+}
+
+#current-flow-list > li:last-child {
+  margin-bottom: 0;
 }
 
 .fa-plus,
@@ -259,7 +289,23 @@ section#current-flow {
   /*Current Flow*/
 .para-flow-instr {
   text-indent: 2rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
+  line-height: 1.5;
+}
+
+.form-title {
+  text-align: center;
+  font-weight: bold;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-around;
+}
+
+#flow-length {
+  width: 14ch;
+  text-align: center;
 }
 
 .note {
@@ -269,7 +315,9 @@ section#current-flow {
 
 #current-flow-container {
   background-color: white;
-  height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 #current-flow-list img {

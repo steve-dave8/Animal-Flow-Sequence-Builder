@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import CurrentMove from './CurrentMove'
-import CurrentFlow from './CurrentFlow'
+import CurrentMove from './home-sub-components/CurrentMove'
+import CurrentFlow from './home-sub-components/CurrentFlow'
 
 const Home = () => {
     const [move, setMove] = useState([])

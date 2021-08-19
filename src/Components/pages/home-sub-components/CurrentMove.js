@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { moveList } from '../helpers/getData.js'
+import { moveList } from '../../../helpers/getData.js'
 
 const CurrentMove = (props) => {
     function getMove(){

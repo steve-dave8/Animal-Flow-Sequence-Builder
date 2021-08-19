@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { NavLink as RouteLink } from 'react-router-dom'
 
-import claws from '../assets/Claws-Black.png'
+import claws from '../../assets/Claws-Black.png'
 
 const Navigation = () => {
     useEffect(() => {
@@ -22,6 +22,7 @@ const Navigation = () => {
         </header>
         <nav>
             <div><button type="button" className="btn-page" style={{borderLeft: "none"}}>Home</button></div>
+            <div><button type="button" className="btn-page">Move Index</button></div>
             <div><button type="button" className="btn-page">Saved Flows</button></div>
             <div><button type="button" className="btn-page">Contact</button></div>        
         </nav></>
