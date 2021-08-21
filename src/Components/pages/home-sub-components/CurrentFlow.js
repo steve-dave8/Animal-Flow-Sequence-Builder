@@ -90,7 +90,7 @@ const CurrentFlow = (props) => {
             <h2 id="current-flow-title">Current Flow</h2>
             <div id="current-flow-panel">
                 {(!props.flow.length)
-                    ? <><p className="para-flow-instr">Let's get moving! 
+                    ? <><p className="para-instr">Let's get moving! 
                         Begin by selecting a starting position in the "Current Move" panel. Then, 
                         from the options provided, select the next movement and repeat to build a flow
                         which will appear here. Alternately, use the form below to create a random flow.</p>  
