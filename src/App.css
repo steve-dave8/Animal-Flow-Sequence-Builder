@@ -354,11 +354,25 @@ section#current-flow {
   margin-top: 2rem;
 }
 
+#index-header {
+  background-color: unset;
+  display: unset;
+}
+
 .panel-title {
   text-align: center;
   font-size: 1.8rem;
   margin: 0.5rem 0;
   text-decoration: underline;
+}
+
+#index-banner {
+  display: flex;
+  justify-content: space-between;
+  color: black;
+  background-color: rgba(255, 255, 255, 0.4);
+  padding: 0 10px;
+  align-items: center;
 }
 
 #index-nav {

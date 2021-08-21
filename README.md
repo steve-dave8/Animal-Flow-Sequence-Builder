@@ -15,6 +15,7 @@ This is an app, created using React JS, for designing Animal Flow sequences. It 
 ## Project Status
 ### Upcoming
 * Function to mirror a flow.
+* Options to filter next moves by level and component.
 * Ongoing addition of movements to the backend.
 
 ## More Info

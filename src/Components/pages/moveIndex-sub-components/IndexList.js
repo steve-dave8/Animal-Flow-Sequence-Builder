@@ -2,31 +2,56 @@ import React, { useState } from 'react'
 
 import { moveList } from '../../../helpers/getData'
 
-const IndexList = (props) => {
-    const SAmoveList = moveList.filter(x => x.component === "static activations")
-    const FSSmoveList = moveList.filter(x => x.component === "form specific stretches")
-    const STmoveList = moveList.filter(x => x.component === "switches and transitions")
-    
+const uniqueMoveList = moveList.filter(x => !x.alias)
+const SAmoveList = moveList.filter(x => x.component === "static activations")
+const uniqueSAmoveList = SAmoveList.filter(x => !x.alias)
+const FSSmoveList = moveList.filter(x => x.component === "form specific stretches")
+const uniqueFSSmoveList = FSSmoveList.filter(x => !x.alias)
+const STmoveList = moveList.filter(x => x.component === "switches and transitions")
+const uniqueSTmoveList = STmoveList.filter(x => !x.alias)
+
+const IndexList = (props) => {   
     const [tab, setTab] = useState("All")
     const [index, setIndex] = useState(moveList)
+
+    const uniqueFilter = document.getElementById('unique-filter')
 
     const changeTab = (e) => {
         switch (e.target.innerText){
             case "All":
                 setTab("All")
-                setIndex(moveList)
+                uniqueFilter.checked ? setIndex(uniqueMoveList) : setIndex(moveList)
                 break
             case "SA":
                 setTab("SA")
-                setIndex(SAmoveList)
+                uniqueFilter.checked ? setIndex(uniqueSAmoveList) : setIndex(SAmoveList)
                 break
             case "FSS":
                 setTab("FSS")
-                setIndex(FSSmoveList)
+                uniqueFilter.checked ? setIndex(uniqueFSSmoveList) : setIndex(FSSmoveList)
                 break
             case "S&T":
                 setTab("S&T")
-                setIndex(STmoveList)
+                uniqueFilter.checked ? setIndex(uniqueSTmoveList) : setIndex(STmoveList)
+                break
+            default:
+                //do nothing
+        }
+    }
+
+    const filterList = () => {
+        switch (tab){
+            case "All":
+                uniqueFilter.checked ? setIndex(uniqueMoveList) : setIndex(moveList)
+                break
+            case "SA":
+                uniqueFilter.checked ? setIndex(uniqueSAmoveList) : setIndex(SAmoveList)
+                break
+            case "FSS":
+                uniqueFilter.checked ? setIndex(uniqueFSSmoveList) : setIndex(FSSmoveList)
+                break
+            case "S&T":
+                uniqueFilter.checked ? setIndex(uniqueSTmoveList) : setIndex(STmoveList)
                 break
             default:
                 //do nothing
@@ -39,8 +64,19 @@ const IndexList = (props) => {
     }
 
     return (
-        <section className="panel" style={{height: "500px"}}>
-            <h2 className="panel-title">Move Index</h2>
+        <section className="panel" style={{height: "550px"}}>
+            <header id="index-header">
+                <h2 className="panel-title">Move Index</h2>
+                <div id="index-banner">
+                    <p style={{fontWeight: "bold"}}>Total: {index.length}</p>
+                    <div>
+                        <label htmlFor="unique-filter" onClick={filterList} >
+                            Show unique moves only: 
+                            <input type="checkbox" id="unique-filter"/>
+                        </label>
+                    </div>
+                </div>
+            </header>
             <nav id="index-nav">
                 <div className={tab === "All" ? "active-tab" : ""} onClick={changeTab}>
                     <p>All</p>
