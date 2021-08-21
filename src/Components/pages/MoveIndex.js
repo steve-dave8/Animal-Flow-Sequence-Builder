@@ -3,7 +3,13 @@ import IndexList from './moveIndex-sub-components/IndexList'
 import MoveInfo from './moveIndex-sub-components/MoveInfo'
 
 const MoveIndex = () => {
-    const [move, setMove] = useState(null)
+    let prevMove = JSON.parse(window.localStorage.getItem('moveInfo'))
+
+    const [move, setMove] = useState(prevMove || null)
+
+    useEffect(() => {
+        window.localStorage.setItem('moveInfo', JSON.stringify(move));
+    }, [move]);
 
     return (
         <main id="move-index">

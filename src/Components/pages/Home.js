@@ -3,9 +3,16 @@ import CurrentMove from './home-sub-components/CurrentMove'
 import CurrentFlow from './home-sub-components/CurrentFlow'
 
 const Home = () => {
-    const [move, setMove] = useState([])
-    const [flow, setFlow] = useState([])
+    let prevFlow = JSON.parse(window.localStorage.getItem('flow'))
+    let lastMove = prevFlow[prevFlow.length - 1]
 
+    const [move, setMove] = useState(lastMove || [])
+    const [flow, setFlow] = useState(prevFlow || [])
+
+    useEffect(() => {
+        window.localStorage.setItem('flow', JSON.stringify(flow));
+    }, [flow]);
+    
     useEffect(() => {
         const getBasePositions = async () => {
             const response = await fetch("http://localhost:4000/base-positions/", {method: "GET", mode: 'cors'})
