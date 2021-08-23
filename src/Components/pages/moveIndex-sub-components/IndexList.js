@@ -2,21 +2,20 @@ import React, { useState } from 'react'
 
 import { moveList } from '../../../helpers/getData'
 
-const uniqueMoveList = moveList.filter(x => !x.alias)
-const SAmoveList = moveList.filter(x => x.component === "static activations")
-const uniqueSAmoveList = SAmoveList.filter(x => !x.alias)
-const FSSmoveList = moveList.filter(x => x.component === "form specific stretches")
-const uniqueFSSmoveList = FSSmoveList.filter(x => !x.alias)
-const STmoveList = moveList.filter(x => x.component === "switches and transitions")
-const uniqueSTmoveList = STmoveList.filter(x => !x.alias)
+const IndexList = (props) => {  
+    const uniqueMoveList = moveList.filter(x => !x.alias)
+    const SAmoveList = moveList.filter(x => x.component === "static activations")
+    const uniqueSAmoveList = SAmoveList.filter(x => !x.alias)
+    const FSSmoveList = moveList.filter(x => x.component === "form specific stretches")
+    const uniqueFSSmoveList = FSSmoveList.filter(x => !x.alias)
+    const STmoveList = moveList.filter(x => x.component === "switches and transitions")
+    const uniqueSTmoveList = STmoveList.filter(x => !x.alias) 
 
-const IndexList = (props) => {   
     const [tab, setTab] = useState("All")
     const [index, setIndex] = useState(moveList)
 
-    const uniqueFilter = document.getElementById('unique-filter')
-
     const changeTab = (e) => {
+        const uniqueFilter = document.getElementById('unique-filter')
         switch (e.target.innerText){
             case "All":
                 setTab("All")
@@ -40,6 +39,7 @@ const IndexList = (props) => {
     }
 
     const filterList = () => {
+        const uniqueFilter = document.getElementById('unique-filter')
         switch (tab){
             case "All":
                 uniqueFilter.checked ? setIndex(uniqueMoveList) : setIndex(moveList)

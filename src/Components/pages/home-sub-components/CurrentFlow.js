@@ -85,6 +85,42 @@ const CurrentFlow = (props) => {
         props.setFlow([])
     }
 
+    const mirror = () => {
+        if (props.flow.length <= 1) return
+        let mirrorFlow = []
+        props.flow.forEach(x => {
+            if (x.move.includes('left') || (x.precursor && x.precursor.includes('left'))){
+                let mirrorMove = x.move.replace('left', 'right')
+                if (x.precursor){
+                    let mirrorPrecursor = x.precursor.replace('left', 'right')
+                    let replacement = moveList.find(x => {
+                        if (x.move === mirrorMove && x.precursor === mirrorPrecursor) return x
+                    })
+                    mirrorFlow.push(replacement)
+                } else {
+                    let replacement = moveList.find(x => x.move === mirrorMove) 
+                    mirrorFlow.push(replacement)
+                }
+            } else if (x.move.includes('right') || (x.precursor && x.precursor.includes('right'))){
+                let mirrorMove = x.move.replace('right', 'left')
+                if (x.precursor){
+                    let mirrorPrecursor = x.precursor.replace('right', 'left')
+                    let replacement = moveList.find(x => {
+                        if (x.move === mirrorMove && x.precursor === mirrorPrecursor) return x
+                    })
+                    mirrorFlow.push(replacement)
+                } else {
+                    let replacement = moveList.find(x => x.move === mirrorMove)
+                    mirrorFlow.push(replacement)
+                }                
+            } else {
+                mirrorFlow.push(x)
+            }
+        })
+        props.setMove(mirrorFlow[mirrorFlow.length - 1])
+        props.setFlow(mirrorFlow)
+    }
+
     return (
         <section id="current-flow">
             <h2 id="current-flow-title">Current Flow</h2>
@@ -106,9 +142,8 @@ const CurrentFlow = (props) => {
                         <div className="btn-row">
                             <p className="form-title">Options:</p>
                             <button type="button" style={{height: "fit-content"}} onClick={reset}>Reset</button>
-                            <button type="button" style={{height: "fit-content"}}>Mirror</button>
+                            <button type="button" style={{height: "fit-content"}} onClick={mirror}>Mirror</button>
                         </div>
-                        {/* <hr style={{width: "80%"}}/> */}
                         <div id="current-flow-container">
                             <ul id="current-flow-list">
                                 {props.flow.map((el, index) => {

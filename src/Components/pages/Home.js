@@ -4,7 +4,10 @@ import CurrentFlow from './home-sub-components/CurrentFlow'
 
 const Home = () => {
     let prevFlow = JSON.parse(window.localStorage.getItem('flow'))
-    let lastMove = prevFlow[prevFlow.length - 1]
+    let lastMove
+    if (prevFlow && prevFlow.length > 0){
+        lastMove = prevFlow[prevFlow.length - 1]
+    }
 
     const [move, setMove] = useState(lastMove || [])
     const [flow, setFlow] = useState(prevFlow || [])
