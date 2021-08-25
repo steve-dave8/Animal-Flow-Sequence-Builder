@@ -141,8 +141,8 @@ const CurrentFlow = (props) => {
                         <hr style={{width: "80%"}}/>
                         <div className="btn-row">
                             <p className="form-title">Options:</p>
-                            <button type="button" style={{height: "fit-content"}} onClick={reset}>Reset</button>
-                            <button type="button" style={{height: "fit-content"}} onClick={mirror}>Mirror</button>
+                            <button type="button" style={{height: "fit-content", padding: "3px 6px"}} onClick={reset}>Reset</button>
+                            <button type="button" style={{height: "fit-content", padding: "3px 6px"}} onClick={mirror}>Mirror</button>
                         </div>
                         <div id="current-flow-container">
                             <ul id="current-flow-list">

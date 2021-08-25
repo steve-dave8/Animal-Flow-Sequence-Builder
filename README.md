@@ -8,6 +8,8 @@ This is an app, created using React JS, for designing Animal Flow sequences. It 
 
 * For a selected movement a list of next possible movements will be provided from which you can pick your next move and repeat the process to build a flow
 
+* Options to filter next moves by level and/or component
+
 * Generate random flows
 
 * Mirror your flows (swapping left/right)
@@ -16,7 +18,7 @@ This is an app, created using React JS, for designing Animal Flow sequences. It 
 
 ## Project Status
 ### Upcoming
-* Options to filter next moves by level and component.
+* Options to save flows and manage saved flows.
 * Ongoing addition of movements to the backend.
 
 ## More Info

@@ -47,6 +47,13 @@
   color: #ffff00;
 }
 
+.filter-error {
+  font-style: italic;
+  text-align: center;
+  width: max-content;
+  color: #ffff00;
+}
+
 .para-instr {
   text-indent: 2rem;
   margin-top: 1rem;
@@ -212,6 +219,14 @@ section#current-flow {
   font-size: 1.6rem;
   color: black;
   padding-top: 1rem;
+  margin-bottom: 10px;
+}
+
+form#next-moves-filters {
+  display: flex;
+  justify-content: space-around;
+  color: black;
+  align-items: center;
 }
 
 #next-moves-container {

@@ -1,5 +1,5 @@
-let basePositions;
-let moveList;
+let basePositions = [];
+let moveList = [];
 
 const getBasePositions = async () => {
     const response = await fetch("http://localhost:4000/base-positions", {method: "GET", mode: 'cors'});

@@ -81,16 +81,16 @@ const IndexList = (props) => {
                 <div className={tab === "All" ? "active-tab" : ""} onClick={changeTab}>
                     <p>All</p>
                 </div>
-                <div className={tab === "SA" ? "active-tab" : ""} onClick={changeTab}>
+                <div className={tab === "SA" ? "active-tab" : ""} onClick={changeTab} title="Static Activations">
                     <p>SA</p>
                 </div>
-                <div className={tab === "FSS" ? "active-tab" : ""} onClick={changeTab}>
+                <div className={tab === "FSS" ? "active-tab" : ""} onClick={changeTab} title="Form Specific Stretches">
                     <p>FSS</p>
                 </div>
-                <div className={tab === "S&T" ? "active-tab" : ""} onClick={changeTab}>
+                <div className={tab === "S&T" ? "active-tab" : ""} onClick={changeTab} title="Switches & Transitions">
                     <p>S&T</p>
                 </div>
-                <div>
+                <div title="coming soon...">
                     <p>TF</p>
                 </div>
             </nav>

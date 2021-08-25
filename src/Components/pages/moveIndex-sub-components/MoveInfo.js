@@ -1,8 +1,12 @@
-import React, { useEffect } from 'react'
-
+import React, { useEffect, useState } from 'react'
 import { moveList } from '../../../helpers/getData.js'
+import NextMovesFilters from '../shared-sub-components/NextMovesFilters.js'
 
 const MoveInfo = (props) => {
+    const [levelFilter, setLevelFilter] = useState("")
+    const [componentFilter, setComponentFilter] = useState("")
+    const [nextMoves, setNextMoves] = useState([])
+
     function getMove(){
         let selectedMove = this.parentElement.querySelector("p").innerText
         let currentMove = moveList.filter(x => x.move === selectedMove)
@@ -13,19 +17,8 @@ const MoveInfo = (props) => {
         props.setMove(currentMove)
     }   
 
-    useEffect(() => {
-        let moveBtns = Array.from(document.getElementsByClassName("fa-info"))
-        if (moveBtns.length){
-            moveBtns.forEach(y => y.addEventListener("click", getMove))
-        }
-        return () => {
-            moveBtns.forEach(y => y.removeEventListener("click", getMove))
-        }
-    })
-
     const getNextMoves = () => {
-        if (!props.move) return
-        let nextMoves
+        let nextMovesRef
         if (props.move.alias){
             let alias = props.move.alias
             if (alias.includes('precursor')){
@@ -37,13 +30,64 @@ const MoveInfo = (props) => {
             } else {
                 alias = moveList.find(x => x.move === alias)
             }           
-            nextMoves = alias.nextMoves
+            nextMovesRef = alias.nextMoves
         } else {
-            nextMoves = props.move.nextMoves 
-        }   
-        return nextMoves 
+            nextMovesRef = props.move.nextMoves 
+        }  
+        const findMove = (move) => {
+            let moveKey = move.split(' precursor ')
+            let nextOption = moveList.filter(x => x.move === moveKey[0])
+            if (nextOption.length > 1){
+                nextOption = nextOption.filter(x => x.precursor === moveKey[1])
+            }
+            nextOption = nextOption[0]
+            return nextOption
+        }
+        let nextMovesList = []
+        nextMovesRef.forEach(x => {
+            let foundMove = findMove(x)
+            if (foundMove){
+                nextMovesList.push(foundMove)
+            }
+        })
+        if (levelFilter || componentFilter){          
+            let baseMoves = nextMovesList.filter(x => {
+                if (x.component === "static activations"){
+                    return x
+                }
+            })
+            if (levelFilter){
+                nextMovesList = nextMovesList.filter(x => x.level === levelFilter)
+            }
+            if (componentFilter){
+                nextMovesList = nextMovesList.filter(x => x.component === componentFilter)
+            }
+            nextMovesList = baseMoves.concat(nextMovesList)
+        }
+        setNextMoves(nextMovesList)
     }
-    const nextMoves = getNextMoves()
+
+    const applyFilter = (event) => {
+        event.preventDefault()
+        getNextMoves()
+    }
+
+    useEffect(() => {
+        if (props.move){
+            getNextMoves()
+        }
+        // eslint-disable-next-line
+    }, [props.move])
+
+    useEffect(() => {
+        let moveBtns = Array.from(document.getElementsByClassName("fa-info"))
+        if (moveBtns.length){
+            moveBtns.forEach(y => y.addEventListener("click", getMove))
+        }
+        return () => {
+            moveBtns.forEach(y => y.removeEventListener("click", getMove))
+        }
+    })
 
     return (
         <section className="panel">
@@ -65,30 +109,25 @@ const MoveInfo = (props) => {
                     </div>                
                     <div id="next-moves-panel">
                         <h3>Next Moves:</h3>
+                        <NextMovesFilters applyFilter={applyFilter} levelFilter={levelFilter} setLevelFilter={setLevelFilter} componentFilter={componentFilter} setComponentFilter={setComponentFilter}/>
                         <div id="next-moves-container">
                             <ul id="next-moves-list">
-                                {nextMoves.map( move => {
-                                    move = move.split(' precursor ')
-                                    let nextOption = moveList.filter(x => x.move === move[0])
-                                    if (nextOption.length > 1){
-                                        nextOption = nextOption.filter(x => x.precursor === move[1])
-                                    }
-                                    nextOption = nextOption[0]
-                                    if (!nextOption){
-                                        return null
-                                    } else {
+                                {nextMoves.length
+                                    ? nextMoves.map(x => {
                                     return (
                                         <li>
-                                            <i className="fas fa-info" data-precursor={move[1]}></i>
+                                            <i className="fas fa-info" data-precursor={x.precursor}></i>
                                             <p>
-                                                <span style={{fontStyle: "italic"}}>{nextOption.callout.keyPhrase} </span>
-                                                <span>{nextOption.callout.direction} </span>
-                                                <span className="callout-command">{nextOption.callout.command}</span>
+                                                <span style={{fontStyle: "italic"}}>{x.callout.keyPhrase} </span>
+                                                <span>{x.callout.direction} </span>
+                                                <span className="callout-command">{x.callout.command}</span>
                                             </p>
-                                            <img src={nextOption.imgSrc} alt={nextOption.move}></img>
+                                            <img src={x.imgSrc} alt={x.move}></img>
                                         </li>
-                                    )}
-                                })}
+                                    )
+                                    })
+                                    : <li className="filter-error">No next moves found. Try changing your filters.</li>
+                                }
                             </ul>
                         </div>
                     </div>

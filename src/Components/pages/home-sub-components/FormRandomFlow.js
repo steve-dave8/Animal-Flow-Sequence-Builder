@@ -9,7 +9,7 @@ const FormRandomFlow = (props) => {
                     <label htmlFor="flow-length">Length: </label>
                     <input id="flow-length" type="number" required min="3" max="30" placeholder="min 3, max 30" value={props.flowLength} onChange={e => props.setFlowLength(parseInt(e.target.value))}></input>
                 </div>
-                <button type="submit">Submit</button>
+                <button type="submit" style={{padding: "3px 6px"}}>Submit</button>
             </div>
             <div className={`error ${!props.error ? "hidden" : ""}`}>{props.error}</div>
         </form> 
