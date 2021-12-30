@@ -3,17 +3,13 @@ import CurrentMove from './home-sub-components/CurrentMove'
 import CurrentFlow from './home-sub-components/CurrentFlow'
 
 const Home = () => {
-    let prevFlow = JSON.parse(window.localStorage.getItem('flow'))
-    let lastMove
-    if (prevFlow && prevFlow.length > 0){
-        lastMove = prevFlow[prevFlow.length - 1]
-    }
+    const prevFlow = JSON.parse(window.localStorage.getItem('flow'))
 
-    const [move, setMove] = useState(lastMove || [])
+    const [move, setMove] = useState(prevFlow[prevFlow.length - 1] || [])
     const [flow, setFlow] = useState(prevFlow || [])
 
     useEffect(() => {
-        window.localStorage.setItem('flow', JSON.stringify(flow));
+        window.localStorage.setItem('flow', JSON.stringify(flow))
     }, [flow]);
     
     useEffect(() => {

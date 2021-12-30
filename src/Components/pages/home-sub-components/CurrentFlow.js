@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { basePositions, moveList } from '../../../helpers/getData.js'
+import { shuffle } from '../../../helpers/shuffle.js'
 
 import FormRandomFlow from './FormRandomFlow.js'
 
@@ -35,16 +36,32 @@ const CurrentFlow = (props) => {
     const genRandomFlow = () => {
         let index = Math.floor(Math.random()*basePositions.length)
         let randomFlow = []
-        let nextMove = moveList.find(x => x.move === basePositions[index].base)
+        let basePositionsDeck = basePositions.slice()
+        shuffle(basePositionsDeck)
+        let nextMove = moveList.find(x => x.move === basePositionsDeck[index].base)
         randomFlow.push(nextMove)
         const addMove = () => {
             let lastMove = randomFlow[randomFlow.length - 1]
             if (lastMove.alias){
-                lastMove = moveList.find(x => x.move === lastMove.alias)
+                let alias = lastMove.alias
+                if (alias.includes('precursor')){
+                    alias = alias.split(' precursor ')
+                    let foundMove = moveList.filter(x => {
+                        if (x.move === alias[0] && x.precursor === alias[1]) return x
+                    })
+                    alias = foundMove[0]
+                } else {
+                    alias = moveList.find(x => x.move === alias)
+                } 
+                lastMove = moveList.find(x => x.move === alias.move)
             }
-            index = Math.floor(Math.random()*lastMove.nextMoves.length)
-            nextMove = lastMove.nextMoves[index]
-            if (lastMove.move.includes('set') && nextMove.includes('set')) return
+            let nextMovesDeck = lastMove.nextMoves.slice()
+            shuffle(nextMovesDeck)
+            do {
+                index = Math.floor(Math.random()*nextMovesDeck.length)
+                nextMove = nextMovesDeck[index]
+            } while (lastMove.move.includes('set') && nextMove.includes('set'))
+
             let move = nextMove.split(' precursor ')
             let nextOption = moveList.filter(x => x.move === move[0])
             if (nextOption.length > 1){
