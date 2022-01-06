@@ -16,10 +16,13 @@ This is an app, created using React JS, for designing Animal Flow sequences. It 
 
 * An index to look up moves individually
 
+* Options to save flows and manage saved flows.
+
 ## Project Status
 ### Upcoming
-* Options to save flows and manage saved flows.
 * Ongoing addition of movements to the backend.
+* Addition of filters for use in generating random flows.
+* Option to create account for saving flows.
 
 ## More Info
 See the official website for Animal Flow to learn more about this movement system: <https://animalflow.com/>

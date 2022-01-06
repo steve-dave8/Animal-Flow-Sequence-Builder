@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 import { basePositions, moveList } from '../../../helpers/getData.js'
 import { shuffle } from '../../../helpers/shuffle.js'
@@ -9,9 +9,11 @@ const CurrentFlow = (props) => {
     const [flowLength, setFlowLength] = useState("")
     const [error, setError] = useState(null)
 
+    const currFlowList = useRef()
+
     function removeItem(){
         let itemIndex = this.dataset.index
-        let currentFlow = props.flow
+        let currentFlow = props.flow.slice()
         currentFlow.splice(itemIndex)
         if (!currentFlow.length){
             props.setMove([])
@@ -33,6 +35,34 @@ const CurrentFlow = (props) => {
         }
     })
 
+    const prevFlowLengthRef = useRef()
+    useEffect(() => {
+        prevFlowLengthRef.current = props.flow.length
+    })
+    const prevFlowLength = prevFlowLengthRef.current
+
+    const prevSelFlowRef = useRef()
+    useEffect(() => {
+        prevSelFlowRef.current = JSON.parse(window.localStorage.getItem('prevSelFlow'))
+    })
+    const prevSelFlow = prevSelFlowRef.current
+
+    useEffect(() => {
+        if (!props.flow.length) return
+        const lengthChange = props.flow.length - prevFlowLength
+        const selFlow = JSON.parse(window.localStorage.getItem('prevSelFlow'))
+        if (flowLength){
+            currFlowList.current.scrollTop = 0
+            setFlowLength("")
+        }
+        else if (selFlow && selFlow !== prevSelFlow){
+            currFlowList.current.scrollTop = 0
+        }
+        else if (lengthChange === 1){
+            currFlowList.current.scrollTop = currFlowList.current.scrollTopMax
+        } 
+    }, [props.flow])
+
     const genRandomFlow = () => {
         let index = Math.floor(Math.random()*basePositions.length)
         let randomFlow = []
@@ -49,11 +79,10 @@ const CurrentFlow = (props) => {
                     let foundMove = moveList.filter(x => {
                         if (x.move === alias[0] && x.precursor === alias[1]) return x
                     })
-                    alias = foundMove[0]
+                    lastMove = foundMove[0]
                 } else {
-                    alias = moveList.find(x => x.move === alias)
+                    lastMove = moveList.find(x => x.move === alias)
                 } 
-                lastMove = moveList.find(x => x.move === alias.move)
             }
             let nextMovesDeck = lastMove.nextMoves.slice()
             shuffle(nextMovesDeck)
@@ -162,7 +191,7 @@ const CurrentFlow = (props) => {
                             <button type="button" style={{height: "fit-content", padding: "3px 6px"}} onClick={mirror}>Mirror</button>
                         </div>
                         <div id="current-flow-container">
-                            <ul id="current-flow-list">
+                            <ul id="current-flow-list" ref={currFlowList}>
                                 {props.flow.map((el, index) => {
                                     return (
                                         <li>

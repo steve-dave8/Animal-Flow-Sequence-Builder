@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import CurrentMove from './home-sub-components/CurrentMove'
 import CurrentFlow from './home-sub-components/CurrentFlow'
+import SavedFlows from './SavedFlows'
 
 const Home = () => {
     const prevFlow = JSON.parse(window.localStorage.getItem('flow'))
 
-    const [move, setMove] = useState(prevFlow[prevFlow.length - 1] || [])
+    const [move, setMove] = useState((prevFlow && prevFlow[prevFlow.length - 1]) || [])
     const [flow, setFlow] = useState(prevFlow || [])
 
     useEffect(() => {
@@ -24,10 +25,13 @@ const Home = () => {
     })
 
     return (
-        <main id="home-page">
-            <CurrentMove move={move} setMove={setMove} setFlow={setFlow}/>
-            <CurrentFlow flow={flow} setMove={setMove} setFlow={setFlow}/>
-        </main>
+        <>
+            <SavedFlows flow={flow} setMove={setMove} setFlow={setFlow}/>
+            <main id="home-page">
+                <CurrentMove move={move} setMove={setMove} setFlow={setFlow}/>
+                <CurrentFlow flow={flow} setMove={setMove} setFlow={setFlow}/>
+            </main>
+        </>
     )
 }
 

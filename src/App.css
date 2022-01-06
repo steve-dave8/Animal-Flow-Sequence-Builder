@@ -60,6 +60,42 @@
   line-height: 1.5;
 }
 
+.btn-base {
+  font-weight: bold;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 8px;
+  border: 1px solid;
+}
+
+.btn-base:disabled {
+  cursor: not-allowed;
+}
+
+.fa-trash-alt {
+  color: #a00303;
+  font-size: 22px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.fa-window-close {
+  font-size: 25px;
+  vertical-align: middle;
+  color: #c4a630;
+  background-color: black;
+  line-height: 0.6;
+  width: 24px;
+  cursor: pointer;
+}
+
+.fa-undo {
+  background-color: white;
+  padding: 5px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
 /*Header styles*/
 header {
   display: flex;
@@ -100,7 +136,7 @@ nav#topnav > div {
 .btn-page {
   border: none;
   display: block;
-  height: 50px;
+  height: 54px;
   cursor: pointer;
   width: 100px;
   border-left: 1px solid black;
@@ -125,6 +161,34 @@ main#move-index {
   display: flex;
   justify-content: space-evenly;
   margin-bottom: 2rem;
+}
+
+  /*Saved Flows*/
+div#flow-management {
+  background-color: #c4c4c4;
+  padding: 1px 1rem 0 1rem;
+  display: grid;
+  grid-template-columns: 22rem 1fr;
+}
+
+div#flow-management .save-btn {
+  margin-left: 2rem;
+}
+
+.para-manage-flow {
+  display: inline-block;
+  text-decoration: underline;
+}
+
+.save-btn {
+  color: #00087d;
+  border-color: black;
+}
+
+.save-btn:enabled:hover {
+  color: black;
+  border-color: #00087d;
+  background-color: rgb(233, 233, 237);
 }
 
   /*Current Move*/

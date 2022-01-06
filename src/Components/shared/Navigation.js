@@ -36,7 +36,7 @@ const Navigation = () => {
             </div>
             <div>
                 <NavLink to="/" style={{textDecoration: "none"}}>
-                    <button type="button" className="btn-page">Saved Flows</button>
+                    <button type="button" className="btn-page">Login</button>
                 </NavLink>
             </div>
             <div>
