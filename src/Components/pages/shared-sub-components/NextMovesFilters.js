@@ -2,7 +2,7 @@ import React from 'react'
 
 const NextMovesFilters = (props) => {
     return (
-        <form id="next-moves-filters" onSubmit={props.applyFilter}>
+        <>
             <p style={{textDecoration: "underline"}} >Filters: </p>
             <div>
                 <label htmlFor="level-filter">Level: </label>
@@ -22,8 +22,7 @@ const NextMovesFilters = (props) => {
                     <option value="switches and transitions">Switches & Transitions</option>
                 </select>
             </div>                                        
-            <button type="submit" style={{padding: "3px 6px"}}>Apply</button>
-        </form>
+        </>
     )
 }
 

@@ -38,7 +38,7 @@ const CurrentMove = (props) => {
                 alias = foundMove[0]
             } else {
                 alias = moveList.find(x => x.move === alias)
-            }           
+            }       
             nextMovesRef = alias.nextMoves
         } else {
             nextMovesRef = props.move.nextMoves 
@@ -129,7 +129,10 @@ const CurrentMove = (props) => {
                 </div>                
                 <div id="next-moves-panel">
                     <h3>Next Moves:</h3>
-                    <NextMovesFilters applyFilter={applyFilter} levelFilter={levelFilter} setLevelFilter={setLevelFilter} componentFilter={componentFilter} setComponentFilter={setComponentFilter}/>
+                    <form className="next-moves-filters" onSubmit={applyFilter}>
+                        <NextMovesFilters levelFilter={levelFilter} setLevelFilter={setLevelFilter} componentFilter={componentFilter} setComponentFilter={setComponentFilter}/>
+                        <button type="submit" className="af-btn">Apply</button>
+                    </form>
                     <div id="next-moves-container">
                         <ul id="next-moves-list">
                             {nextMoves.length 

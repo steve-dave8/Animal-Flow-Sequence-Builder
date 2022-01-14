@@ -72,6 +72,21 @@
   cursor: not-allowed;
 }
 
+.af-btn {
+  padding: 3px 7px;
+  border: 1px solid black;
+  cursor: pointer;
+  font-weight: bold;
+  color: #a00303;
+  align-self: center;
+}
+
+.af-btn:hover {
+  color: black;
+  text-shadow: 1px 1px #a00303;
+  filter: contrast(140%);
+}
+
 .fa-trash-alt {
   color: #a00303;
   font-size: 22px;
@@ -286,7 +301,7 @@ section#current-flow {
   margin-bottom: 10px;
 }
 
-form#next-moves-filters {
+.next-moves-filters {
   display: flex;
   justify-content: space-around;
   color: black;
@@ -313,7 +328,7 @@ form#next-moves-filters {
 
 #current-flow-list {
   padding: 0 1rem;
-  max-height: 470px;
+  max-height: 490px;
 }
 
 #next-moves-list > li,
@@ -421,6 +436,72 @@ form#next-moves-filters {
   height: 5rem;
 }
 
+.reset-btn {
+  padding: 3px 6px;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: rgb(233,233,237);
+  border: 1px solid;
+}
+
+.reset-btn:hover {
+  filter: brightness(1.1);
+}
+
+.reset-btn > span {
+  display: inline-block;
+}
+
+.reset-btn:hover > span {
+  animation: reset 0.6s linear;
+}
+
+.mirror-btn {
+  padding: 3px 6px;
+  cursor: pointer;
+  border: 1px solid;
+  overflow: hidden;
+  position: relative;
+  background-color: rgb(233,233,237);
+  font-weight: bold;
+}
+
+.mirror-btn::after {
+  background: #fff;
+  content: "";
+  height: 155px;
+  left: -75px;
+  opacity: 0.7;
+  position: absolute;
+  top: -50px;
+  transform: rotate(35deg);
+  transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+  width: 50px;
+}
+
+.mirror-btn:hover {
+  filter: brightness(1.1);
+}
+
+.mirror-btn:hover::after {
+  left: 120%;
+  transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+    /*Form Random Flow*/
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 4px;
+}
+
+.randflow-row1 {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 0.8rem;
+}
+
 /*Move Index page*/
 .panel {
   width: 40%;
@@ -511,6 +592,29 @@ li.alias {
   text-indent: 20px;
   font-size: 80%;
 }
+
+/*Animations*/
+@keyframes reset {
+  0% {
+    opacity: 1;
+    transform: unset;
+  }
+  25% {
+    transform: skewX(30deg);
+  }
+  50% {
+    opacity: 0.8;
+    transform: skewX(0deg);
+  }
+  75% {
+    transform: skewX(-30deg);
+  }
+  100% {
+    opacity: 1;
+    transform: unset;
+  }
+}
+/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 
 /*Media Queries*/
 

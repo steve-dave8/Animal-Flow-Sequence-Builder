@@ -1,13 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react'
 
-import { basePositions, moveList } from '../../../helpers/getData.js'
-import { shuffle } from '../../../helpers/shuffle.js'
+import { moveList } from '../../../helpers/getData.js'
 
 import FormRandomFlow from './FormRandomFlow.js'
 
 const CurrentFlow = (props) => {
     const [flowLength, setFlowLength] = useState("")
-    const [error, setError] = useState(null)
+    const [randFlowFlag, setRandFlowFlag] = useState(false)
 
     const currFlowList = useRef()
 
@@ -51,9 +50,9 @@ const CurrentFlow = (props) => {
         if (!props.flow.length) return
         const lengthChange = props.flow.length - prevFlowLength
         const selFlow = JSON.parse(window.localStorage.getItem('prevSelFlow'))
-        if (flowLength){
+        if (randFlowFlag){
             currFlowList.current.scrollTop = 0
-            setFlowLength("")
+            setRandFlowFlag(false)
         }
         else if (selFlow && selFlow !== prevSelFlow){
             currFlowList.current.scrollTop = 0
@@ -62,69 +61,6 @@ const CurrentFlow = (props) => {
             currFlowList.current.scrollTop = currFlowList.current.scrollTopMax
         } 
     }, [props.flow])
-
-    const genRandomFlow = () => {
-        let index = Math.floor(Math.random()*basePositions.length)
-        let randomFlow = []
-        let basePositionsDeck = basePositions.slice()
-        shuffle(basePositionsDeck)
-        let nextMove = moveList.find(x => x.move === basePositionsDeck[index].base)
-        randomFlow.push(nextMove)
-        const addMove = () => {
-            let lastMove = randomFlow[randomFlow.length - 1]
-            if (lastMove.alias){
-                let alias = lastMove.alias
-                if (alias.includes('precursor')){
-                    alias = alias.split(' precursor ')
-                    let foundMove = moveList.filter(x => {
-                        if (x.move === alias[0] && x.precursor === alias[1]) return x
-                    })
-                    lastMove = foundMove[0]
-                } else {
-                    lastMove = moveList.find(x => x.move === alias)
-                } 
-            }
-            let nextMovesDeck = lastMove.nextMoves.slice()
-            shuffle(nextMovesDeck)
-            do {
-                index = Math.floor(Math.random()*nextMovesDeck.length)
-                nextMove = nextMovesDeck[index]
-            } while (lastMove.move.includes('set') && nextMove.includes('set'))
-
-            let move = nextMove.split(' precursor ')
-            let nextOption = moveList.filter(x => x.move === move[0])
-            if (nextOption.length > 1){
-                nextOption = nextOption.filter(x => x.precursor === move[1])
-            }
-            nextMove = nextOption[0]
-            if (nextMove){
-                randomFlow.push(nextMove)
-            }
-        }
-        while (randomFlow.length < flowLength){
-            addMove()
-        }
-        props.setMove(randomFlow[randomFlow.length - 1])
-        props.setFlow(randomFlow)
-    }
-
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        if (!flowLength){
-            setError("Error: length cannot be empty.")
-            return
-        }
-        if (flowLength < 3){
-            setError("Error: length cannot be less than 3.")
-            return
-        }
-        if (flowLength > 30){
-            setError("Error: length cannot be more than 30.")
-            return
-        }
-        setError(null)
-        genRandomFlow()        
-    }
 
     const reset = () => {
         props.setMove([])
@@ -177,18 +113,30 @@ const CurrentFlow = (props) => {
                         from the options provided, select the next movement and repeat to build a flow
                         which will appear here. Alternately, use the form below to create a random flow.</p>  
                         <hr style={{width: "80%"}}/>
-                        <FormRandomFlow flowLength={flowLength} setFlowLength={setFlowLength} handleSubmit={handleSubmit} error={error}/>
+                        <FormRandomFlow 
+                            flowLength={flowLength} 
+                            setFlowLength={setFlowLength}
+                            setRandFlowFlag={setRandFlowFlag}
+                            setMove={props.setMove}
+                            setFlow={props.setFlow}
+                        />
                         <hr style={{width: "80%"}}/>                    
                     </>
                     : <>
                         <p className="note">Note: removing a movement from the flow below will also remove all movements that follow it.</p>
                         <hr style={{width: "80%"}}/>
-                        <FormRandomFlow flowLength={flowLength} setFlowLength={setFlowLength} handleSubmit={handleSubmit} error={error}/>
+                        <FormRandomFlow 
+                            flowLength={flowLength} 
+                            setFlowLength={setFlowLength} 
+                            setRandFlowFlag={setRandFlowFlag}
+                            setMove={props.setMove}
+                            setFlow={props.setFlow}
+                        />
                         <hr style={{width: "80%"}}/>
                         <div className="btn-row">
                             <p className="form-title">Options:</p>
-                            <button type="button" style={{height: "fit-content", padding: "3px 6px"}} onClick={reset}>Reset</button>
-                            <button type="button" style={{height: "fit-content", padding: "3px 6px"}} onClick={mirror}>Mirror</button>
+                            <button type="button" className='reset-btn' onClick={reset}><span>Reset</span></button>
+                            <button type="button" className='mirror-btn' onClick={mirror}><span>Mirror</span></button>
                         </div>
                         <div id="current-flow-container">
                             <ul id="current-flow-list" ref={currFlowList}>

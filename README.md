@@ -10,7 +10,7 @@ This is an app, created using React JS, for designing Animal Flow sequences. It 
 
 * Options to filter next moves by level and/or component
 
-* Generate random flows
+* Generate random flows (with filter options available)
 
 * Mirror your flows (swapping left/right)
 
@@ -21,7 +21,6 @@ This is an app, created using React JS, for designing Animal Flow sequences. It 
 ## Project Status
 ### Upcoming
 * Ongoing addition of movements to the backend.
-* Addition of filters for use in generating random flows.
 * Option to create account for saving flows.
 
 ## More Info
