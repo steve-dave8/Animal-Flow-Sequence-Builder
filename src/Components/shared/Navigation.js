@@ -1,29 +1,61 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 
 import claws from '../../assets/Claws-Black.png'
 
-const Navigation = () => {
+const Navigation = (props) => {
+    const hamburger = useRef()
+    const menu = useRef()
+
+    const logout = () => {
+        props.setToken(false)
+        window.localStorage.removeItem('AFtoken')
+        props.setUser(false)
+        window.localStorage.removeItem('currUser')
+    }
+
     useEffect(() => {
-        let hamburger = document.querySelector(".claws-menu")
-        let menu = document.getElementById("topnav")
         function toggleMenu(){
-            hamburger.classList.toggle("open-menu")
-            menu.classList.toggle("reveal")
+            hamburger.current.classList.toggle("open-menu")
+            menu.current.classList.toggle("reveal")
+            console.log("toggling")
         }
-        hamburger.addEventListener("click", toggleMenu)
-        let pageBtns = Array.from(document.querySelectorAll(".btn-page"))
+
+        hamburger.current.addEventListener("click", toggleMenu)
+        let pageBtns = Array.from(menu.current.querySelectorAll(".btn-page"))
         pageBtns.forEach(btn => btn.addEventListener("click", toggleMenu))
+        const hamburgerRef = hamburger.current
+
+        return () => {
+            hamburgerRef.removeEventListener("click", toggleMenu)
+            pageBtns.forEach(btn => btn.removeEventListener("click", toggleMenu))
+        }
     })
 
     return (
-        <><header style={{display: "flex"}}>    
-            <h1 id="main-title">Animal Flow Sequence Builder</h1>
+        <><header>   
+            <div id='loginfo'>
+                <div>
+                    {props.user &&
+                        <>
+                            <span>Logged in as</span>
+                            <span id='userName'>{props.user}</span>
+                        </>
+                    }
+                </div>
+            </div> 
+            <h1 id="main-title">
+                <span id="full-title">Animal Flow Sequence Builder</span>
+                <span id='abbr-title'>
+                    <span id='letA'>A</span>
+                    <span id='letF'>F</span>
+                </span>             
+            </h1>
             <div>              
-                <img src={claws} className="claws-menu" alt=""></img>
+                <img src={claws} className="claws-menu" ref={hamburger} alt=""></img>
             </div>   
         </header>
-        <nav id="topnav">
+        <nav id="topnav" ref={menu}>
             <div>
                 <NavLink to="/" style={{textDecoration: "none"}}>
                     <button type="button" className="btn-page" style={{borderLeft: "none"}}>Home</button>
@@ -35,9 +67,12 @@ const Navigation = () => {
                 </NavLink>
             </div>
             <div>
-                <NavLink to="/" style={{textDecoration: "none"}}>
-                    <button type="button" className="btn-page">Login</button>
-                </NavLink>
+                {props.user 
+                    ?   <button type="button" className="btn-page" onClick={logout}>Logout</button>
+                    :   <NavLink to="/login" style={{textDecoration: "none"}}>
+                            <button type="button" className="btn-page">Login</button>
+                        </NavLink>
+                }
             </div>
             <div>
                 <NavLink to="/" style={{textDecoration: "none"}}>
