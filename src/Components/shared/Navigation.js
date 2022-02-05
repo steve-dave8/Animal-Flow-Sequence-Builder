@@ -8,9 +8,12 @@ const Navigation = (props) => {
     const menu = useRef()
 
     const logout = () => {
-        props.setToken(false)
+        window.localStorage.removeItem('userEmail')
+        window.localStorage.removeItem('prevSelFlow')
+        window.localStorage.removeItem('unsavedStatus')
+        props.setToken("")
         window.localStorage.removeItem('AFtoken')
-        props.setUser(false)
+        props.setUser("")
         window.localStorage.removeItem('currUser')
     }
 
@@ -18,7 +21,6 @@ const Navigation = (props) => {
         function toggleMenu(){
             hamburger.current.classList.toggle("open-menu")
             menu.current.classList.toggle("reveal")
-            console.log("toggling")
         }
 
         hamburger.current.addEventListener("click", toggleMenu)

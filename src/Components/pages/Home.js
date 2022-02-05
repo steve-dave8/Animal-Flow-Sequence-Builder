@@ -3,7 +3,7 @@ import CurrentMove from './home-sub-components/CurrentMove'
 import CurrentFlow from './home-sub-components/CurrentFlow'
 import SavedFlows from './SavedFlows'
 
-const Home = () => {
+const Home = (props) => {
     const prevFlow = JSON.parse(window.localStorage.getItem('flow'))
 
     const [move, setMove] = useState((prevFlow && prevFlow[prevFlow.length - 1]) || [])
@@ -26,7 +26,7 @@ const Home = () => {
 
     return (
         <>
-            <SavedFlows flow={flow} setMove={setMove} setFlow={setFlow}/>
+            <SavedFlows flow={flow} setMove={setMove} setFlow={setFlow} token={props.token} />
             <main id="home-page">
                 <CurrentMove move={move} setMove={setMove} setFlow={setFlow}/>
                 <CurrentFlow flow={flow} setMove={setMove} setFlow={setFlow}/>

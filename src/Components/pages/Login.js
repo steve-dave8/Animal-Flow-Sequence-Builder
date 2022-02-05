@@ -56,6 +56,7 @@ const Login = (props) => {
             setError(payload)
         }
         if (response.status === 200) {
+            window.localStorage.setItem('userEmail', emailState)
             props.setToken(payload.token)
             props.setUser(payload.userName)
             history.push("/")

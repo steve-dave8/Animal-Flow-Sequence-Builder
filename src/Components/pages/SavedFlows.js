@@ -2,21 +2,26 @@ import React, { useState, useEffect, useRef } from 'react'
 import Swal from 'sweetalert2'
 
 const SavedFlows = (props) => {
-    const prevSelFlow = JSON.parse(window.localStorage.getItem('prevSelFlow'))
+    const prevSelFlow = window.localStorage.getItem('prevSelFlow')
     const prevUnsaved = JSON.parse(window.localStorage.getItem('unsavedStatus'))
 
-    const [selFlow, setSelFlow] = useState(prevSelFlow || "")
+    const [selFlow, setSelFlow] = useState(prevSelFlow || "") //flow id
     const [savedFlows, setSavedFlows] = useState([])
     const [unsaved, setUnsaved] = useState(prevUnsaved || false)
     const [discarded, setDiscarded] = useState(false)
+    const [flowID, setFlowID] = useState(props.token ? '_id' : 'id')
 
     useEffect(() => {
-        window.localStorage.setItem('prevSelFlow', JSON.stringify(selFlow))
+        window.localStorage.setItem('prevSelFlow', selFlow)
     }, [selFlow])
 
     useEffect(() => {
         window.localStorage.setItem('unsavedStatus', JSON.stringify(unsaved))
     }, [unsaved])
+
+    useEffect(() => {
+        setFlowID(props.token ? '_id' : 'id')
+    }, [props.token])
 
     const prevSelFlowRef = useRef()
     useEffect(() => {
@@ -36,7 +41,19 @@ const SavedFlows = (props) => {
     }, [props.flow])
 
     const getSavedFlows = async () => {
-        const response = await fetch("http://localhost:4000/saved-flows", {method: "GET", mode: 'cors'})
+        let response
+        if (props.token) {
+            const userEmail = window.localStorage.getItem('userEmail')
+            response = await fetch(`http://localhost:4000/users/saved-flows/${userEmail}`, {
+                method: 'GET', 
+                mode: 'cors',
+                headers: {
+                    'Authorization': `Bearer ${props.token}`
+                }
+            })
+        } else {
+            response = await fetch("http://localhost:4000/saved-flows", {method: "GET", mode: 'cors'})
+        }      
         const data = await response.json()
         setSavedFlows(data)
     }
@@ -47,7 +64,7 @@ const SavedFlows = (props) => {
         } else {
             setSelFlow(e.target.value)
             setUnsaved(false)
-            const savedFlow = savedFlows.find(x => x.id === e.target.value).flow
+            const savedFlow = savedFlows.find(x => x[`${flowID}`] === e.target.value).flow
             props.setFlow(savedFlow)
             props.setMove(savedFlow[savedFlow.length - 1])
         }
@@ -55,7 +72,7 @@ const SavedFlows = (props) => {
 
     const discardChanges = () => {
         setDiscarded(true)
-        const savedFlow = savedFlows.find(x => x.id === selFlow).flow
+        const savedFlow = savedFlows.find(x => x[`${flowID}`] === selFlow).flow
         props.setFlow(savedFlow)
         props.setMove(savedFlow[savedFlow.length - 1])
     }
@@ -73,40 +90,83 @@ const SavedFlows = (props) => {
             showCancelButton: true
         }).then((result) => {
             if (result.isConfirmed) {
-                (async function(){
-                    await fetch (`http://localhost:4000/saved-flows/${selFlow}`, {
-                        method: 'DELETE',
-                        mode: 'cors'
-                    })
-                    clearSelection()
-                    getSavedFlows()
-                })()
+                if (props.token) {
+                    (async function(){
+                        await fetch (`http://localhost:4000/users/saved-flows/${selFlow}`, {
+                            method: 'DELETE',
+                            mode: 'cors',
+                            headers: {
+                                'Authorization': `Bearer ${props.token}`
+                            }
+                        })
+                        clearSelection()
+                        getSavedFlows()
+                    })()
+                } else {
+                    (async function(){
+                        await fetch (`http://localhost:4000/saved-flows/${selFlow}`, {
+                            method: 'DELETE',
+                            mode: 'cors'
+                        })
+                        clearSelection()
+                        getSavedFlows()
+                    })()
+                }
             }
         })
     }
 
     const save = async () => {
-        await fetch (`http://localhost:4000/saved-flows/${selFlow}`, {
-            method: 'PATCH',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({flow: props.flow})
-        })
+        setUnsaved(false)
+        if (props.token) {
+            await fetch (`http://localhost:4000/users/saved-flows/${selFlow}`, {
+                method: 'PATCH',
+                mode: 'cors',
+                headers: {
+                    'Authorization': `Bearer ${props.token}`,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({flow: props.flow})
+            })
+        } else {
+            await fetch (`http://localhost:4000/saved-flows/${selFlow}`, {
+                method: 'PATCH',
+                mode: 'cors',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({flow: props.flow})
+            })
+        }
     }
 
     const submitFlow = async (nameVal) => {
-        const response = await fetch("http://localhost:4000/saved-flows", {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-                },
-            body: JSON.stringify({name: nameVal, flow: props.flow})
-        })
+        let response
+        if (props.token) {
+            const userEmail = window.localStorage.getItem('userEmail')
+            response = await fetch("http://localhost:4000/users/saved-flows", {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Authorization': `Bearer ${props.token}`,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                    },
+                body: JSON.stringify({userEmail, name: nameVal, flow: props.flow})
+            })
+        } else {
+            response = await fetch("http://localhost:4000/saved-flows", {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                    },
+                body: JSON.stringify({name: nameVal, flow: props.flow})
+            })
+        }       
         const payload = await response.json()
         if (response.status === 400) {
             Swal.fire({
@@ -119,7 +179,8 @@ const SavedFlows = (props) => {
             })
         } else {
             getSavedFlows()
-            setSelFlow(payload.id)
+            setSelFlow(payload[`${flowID}`])
+            setUnsaved(false)
             Swal.fire({
                 icon: 'success',
                 titleText: 'Success' ,
@@ -157,7 +218,7 @@ const SavedFlows = (props) => {
         })
     }
 
-    useEffect(() => getSavedFlows(), [])
+    useEffect(() => getSavedFlows(), [props.token])
 
     return (
         <div id="flow-management">
@@ -172,19 +233,19 @@ const SavedFlows = (props) => {
                     {savedFlows.length
                         ?   <>
                                 <option value="">--Select A Flow--</option>
-                                {savedFlows.map(x => <option value={x.id}>{x.name}</option>)}
+                                {savedFlows.map(x => <option value={x[`${flowID}`]}>{x.name}</option>)}
                             </>
                         :   <option value={null}>--N/A--</option>
                     }
                 </select>
                 {selFlow
                     ?   <>
-                            <i class="fas fa-trash-alt" title="Delete" style={{marginRight: "1rem"}} onClick={deleteFlow}></i>
-                            <i class="fas fa-window-close" title="Clear" onClick={clearSelection}></i>
+                            <i className="fas fa-trash-alt" title="Delete" style={{marginRight: "1rem"}} onClick={deleteFlow}></i>
+                            <i className="fas fa-window-close" title="Clear" onClick={clearSelection}></i>
                             {unsaved && 
                                 <div style={{display: "inline-block", marginLeft: "2rem"}}>
                                     <span style={{fontStyle: "italic", paddingRight: "1rem"}}>Unsaved Changes</span>
-                                    <i class="fas fa-undo" title="Discard Changes" onClick={discardChanges}></i>
+                                    <i className="fas fa-undo" title="Discard Changes" onClick={discardChanges}></i>
                                 </div>
                             }
                         </>

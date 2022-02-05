@@ -16,12 +16,16 @@ This is an app, created using React JS, for designing Animal Flow sequences. It 
 
 * An index to look up moves individually
 
-* Options to save flows and manage saved flows.
+* Options to save flows and manage saved flows. Option to create account for saving flows so they can be accessed from any device.
 
 ## Project Status
 ### Upcoming
 * Ongoing addition of movements to the backend.
-* Option to create account for saving flows.
+* Addition of callout shorthand.
+
+### Bugs
+* If a user was logged in and selected a saved flow from their account then after logging out the 'delete' and 'clear' icons in the SavedFlows component are still visible. The selected flow is also still visible even though now it can not be reselected while logged out.
+Possible solutions: lift state up to the highest level (App component) OR use Redux.
 
 ## More Info
 See the official website for Animal Flow to learn more about this movement system: <https://animalflow.com/>

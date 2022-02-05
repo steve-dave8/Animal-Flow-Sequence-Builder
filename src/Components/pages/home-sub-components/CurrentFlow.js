@@ -42,14 +42,14 @@ const CurrentFlow = (props) => {
 
     const prevSelFlowRef = useRef()
     useEffect(() => {
-        prevSelFlowRef.current = JSON.parse(window.localStorage.getItem('prevSelFlow'))
+        prevSelFlowRef.current = window.localStorage.getItem('prevSelFlow')
     })
     const prevSelFlow = prevSelFlowRef.current
 
     useEffect(() => {
         if (!props.flow.length) return
         const lengthChange = props.flow.length - prevFlowLength
-        const selFlow = JSON.parse(window.localStorage.getItem('prevSelFlow'))
+        const selFlow = window.localStorage.getItem('prevSelFlow')
         if (randFlowFlag){
             currFlowList.current.scrollTop = 0
             setRandFlowFlag(false)

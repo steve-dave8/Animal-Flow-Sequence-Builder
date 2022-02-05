@@ -12,18 +12,20 @@ function App() {
   const [user, setUser] = useState(window.localStorage.getItem('currUser') || "")
 
   useEffect(() => {
-    window.localStorage.setItem('AFtoken', token)
+    token && window.localStorage.setItem('AFtoken', token)
   }, [token])
 
   useEffect(() => {
-    window.localStorage.setItem('currUser', user)
+    user && window.localStorage.setItem('currUser', user)
   }, [user])
 
   return (
     <BrowserRouter>
       <Navigation user={user} setUser={setUser} setToken={setToken} />
       <Switch>
-        <Route exact path="/" component={Home} />
+        <Route exact path="/" >
+          <Home token={token} />
+        </Route>
         <Route exact path="/move-index" component={MoveIndex} />
         <Route exact path="/login">
           <Login setToken={setToken} setUser={setUser} />
