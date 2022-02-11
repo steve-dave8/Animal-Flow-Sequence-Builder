@@ -154,6 +154,13 @@
   filter: sepia(100%);
 }
 
+.loading {
+  height: calc(100vh - 116px); /*subtract height of header*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /*Header styles*/
 header {
   display: flex;

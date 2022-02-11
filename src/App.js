@@ -6,6 +6,7 @@ import Navigation from './Components/shared/Navigation';
 import Home from './Components/pages/Home';
 import MoveIndex from './Components/pages/MoveIndex';
 import Login from './Components/pages/Login';
+import Loading from './Components/shared/Loading';
 
 const getMoveList = async () => {
   const response = await fetch("http://localhost:4000/move-list", {method: "GET", mode: 'cors'});
@@ -36,10 +37,16 @@ function App() {
       <Navigation user={user} setUser={setUser} setToken={setToken} />
       <Switch>
         <Route exact path="/" >
-          {(moveList.length > 0) && <Home token={token} moveList={moveList} />}        
+          {(moveList.length > 0) 
+            ? <Home token={token} moveList={moveList} />
+            : <Loading type={'spokes'} color={'#a00303'} containerClass={'loading'} />
+          }        
         </Route>
         <Route exact path="/move-index" >
-          {(moveList.length > 0) && <MoveIndex moveList={moveList} />}
+          {(moveList.length > 0) 
+            ? <MoveIndex moveList={moveList} />
+            : <Loading type={'spokes'} color={'#a00303'} containerClass={'loading'} />
+          }
         </Route>
         <Route exact path="/login">
           <Login setToken={setToken} setUser={setUser} />
