@@ -44,7 +44,7 @@ const SavedFlows = (props) => {
         let response
         if (props.token) {
             const userEmail = window.localStorage.getItem('userEmail')
-            response = await fetch(`http://localhost:4000/users/saved-flows/${userEmail}`, {
+            response = await fetch(`${process.env.REACT_APP_BACKEND}/users/saved-flows/${userEmail}`, {
                 method: 'GET', 
                 mode: 'cors',
                 headers: {
@@ -52,7 +52,7 @@ const SavedFlows = (props) => {
                 }
             })
         } else {
-            response = await fetch("http://localhost:4000/saved-flows", {method: "GET", mode: 'cors'})
+            response = await fetch(`${process.env.REACT_APP_BACKEND}/saved-flows`, {method: "GET", mode: 'cors'})
         }      
         const data = await response.json()
         setSavedFlows(data)
@@ -92,7 +92,7 @@ const SavedFlows = (props) => {
             if (result.isConfirmed) {
                 if (props.token) {
                     (async function(){
-                        await fetch (`http://localhost:4000/users/saved-flows/${selFlow}`, {
+                        await fetch (`${process.env.REACT_APP_BACKEND}/users/saved-flows/${selFlow}`, {
                             method: 'DELETE',
                             mode: 'cors',
                             headers: {
@@ -104,7 +104,7 @@ const SavedFlows = (props) => {
                     })()
                 } else {
                     (async function(){
-                        await fetch (`http://localhost:4000/saved-flows/${selFlow}`, {
+                        await fetch (`${process.env.REACT_APP_BACKEND}/saved-flows/${selFlow}`, {
                             method: 'DELETE',
                             mode: 'cors'
                         })
@@ -119,7 +119,7 @@ const SavedFlows = (props) => {
     const save = async () => {
         setUnsaved(false)
         if (props.token) {
-            await fetch (`http://localhost:4000/users/saved-flows/${selFlow}`, {
+            await fetch (`${process.env.REACT_APP_BACKEND}/users/saved-flows/${selFlow}`, {
                 method: 'PATCH',
                 mode: 'cors',
                 headers: {
@@ -130,7 +130,7 @@ const SavedFlows = (props) => {
                 body: JSON.stringify({flow: props.flow})
             })
         } else {
-            await fetch (`http://localhost:4000/saved-flows/${selFlow}`, {
+            await fetch (`${process.env.REACT_APP_BACKEND}/saved-flows/${selFlow}`, {
                 method: 'PATCH',
                 mode: 'cors',
                 headers: {
@@ -146,7 +146,7 @@ const SavedFlows = (props) => {
         let response
         if (props.token) {
             const userEmail = window.localStorage.getItem('userEmail')
-            response = await fetch("http://localhost:4000/users/saved-flows", {
+            response = await fetch(`${process.env.REACT_APP_BACKEND}/users/saved-flows`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
@@ -157,7 +157,7 @@ const SavedFlows = (props) => {
                 body: JSON.stringify({userEmail, name: nameVal, flow: props.flow})
             })
         } else {
-            response = await fetch("http://localhost:4000/saved-flows", {
+            response = await fetch(`${process.env.REACT_APP_BACKEND}/saved-flows`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {

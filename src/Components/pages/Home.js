@@ -15,7 +15,7 @@ const Home = (props) => {
     
     useEffect(() => {
         const getBasePositions = async () => {
-            const response = await fetch("http://localhost:4000/base-positions/", {method: "GET", mode: 'cors'})
+            const response = await fetch(`${process.env.REACT_APP_BACKEND}/base-positions/`, {method: "GET", mode: 'cors'})
             const data = await response.json()
             setMove(data)
         }

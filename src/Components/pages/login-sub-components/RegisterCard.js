@@ -9,7 +9,7 @@ const RegisterCard = (props) => {
     const handleSubmit = async (event) => {
         event.preventDefault()
         props.setError("")
-        const response = await fetch('http://localhost:4000/users', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND}/users`, {
             method: 'POST',
             mode: 'cors',
             headers: {

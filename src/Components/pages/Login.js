@@ -42,7 +42,7 @@ const Login = (props) => {
     }
 
     const login = async (emailState, passwordState) => {
-        const response = await fetch('http://localhost:4000/auth', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND}/auth`, {
             method: 'POST',
             mode: 'cors',
             headers: {
