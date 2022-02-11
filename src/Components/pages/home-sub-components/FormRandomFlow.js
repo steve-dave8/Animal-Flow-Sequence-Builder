@@ -1,11 +1,17 @@
-import React, { useState } from 'react'
-
+import React, { useState, useEffect } from 'react'
 import NextMovesFilters from '../shared-sub-components/NextMovesFilters.js'
 
-import { basePositions, moveList } from '../../../helpers/getData.js'
 import { shuffle } from '../../../helpers/shuffle.js'
 
+const getBasePositions = async () => {
+    const response = await fetch("http://localhost:4000/base-positions", {method: "GET", mode: 'cors'});
+    const data = await response.json();
+    return data;
+};
+
 const FormRandomFlow = (props) => {
+    const [basePositions, setBasePositions] = useState([])
+
     const [error, setError] = useState(null)
     const [levelFilter, setLevelFilter] = useState("")
     const [componentFilter, setComponentFilter] = useState("")
@@ -19,12 +25,12 @@ const FormRandomFlow = (props) => {
         }
         shuffle(basePositionsDeck)
         let index = Math.floor(Math.random()*(basePositions.length - 1))
-        let nextMove = moveList.find(x => x.move === basePositionsDeck[index].base)
+        let nextMove = props.moveList.find(x => x.move === basePositionsDeck[index].base)
         randomFlow.push(nextMove)
 
         const findMove = (move) => {
             let moveKey = move.split(' precursor ')
-            let nextOption = moveList.filter(x => x.move === moveKey[0])
+            let nextOption = props.moveList.filter(x => x.move === moveKey[0])
             if (nextOption.length > 1){
                 nextOption = nextOption.filter(x => x.precursor === moveKey[1])
             }
@@ -40,12 +46,12 @@ const FormRandomFlow = (props) => {
                 let alias = lastMove.alias
                 if (alias.includes('precursor')){
                     alias = alias.split(' precursor ')
-                    let foundMove = moveList.filter(x => {
+                    let foundMove = props.moveList.filter(x => {
                         if (x.move === alias[0] && x.precursor === alias[1]) return x
                     })
                     lastMove = foundMove[0]
                 } else {
-                    lastMove = moveList.find(x => x.move === alias)
+                    lastMove = props.moveList.find(x => x.move === alias)
                 } 
             }
             let nextMovesList = lastMove.nextMoves.slice()
@@ -142,6 +148,10 @@ const FormRandomFlow = (props) => {
         genRandomFlow()        
     }
 
+    useEffect(() => {
+        getBasePositions().then(data => setBasePositions(data))
+    }, [])
+
     return (
         <form onSubmit={handleSubmit} style={{marginBottom: "16px"}} >
             <p className="form-title">Generate Random Flow</p>
@@ -161,7 +171,7 @@ const FormRandomFlow = (props) => {
                         <NextMovesFilters levelFilter={levelFilter} setLevelFilter={setLevelFilter} componentFilter={componentFilter} setComponentFilter={setComponentFilter}/>
                     </div>
                 </section>
-                <button type="submit" className="af-btn">Submit</button>
+                <button type="submit" className="af-btn" disabled={!basePositions.length}>Submit</button>
             </div>
             <div className={`error ${!error ? "hidden" : ""}`}>{error}</div>
         </form> 

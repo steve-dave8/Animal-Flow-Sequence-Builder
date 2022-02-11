@@ -28,8 +28,8 @@ const Home = (props) => {
         <>
             <SavedFlows flow={flow} setMove={setMove} setFlow={setFlow} token={props.token} />
             <main id="home-page">
-                <CurrentMove move={move} setMove={setMove} setFlow={setFlow}/>
-                <CurrentFlow flow={flow} setMove={setMove} setFlow={setFlow}/>
+                <CurrentMove move={move} setMove={setMove} setFlow={setFlow} moveList={props.moveList} />
+                <CurrentFlow flow={flow} setMove={setMove} setFlow={setFlow} moveList={props.moveList} />
             </main>
         </>
     )

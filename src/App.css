@@ -113,6 +113,10 @@
   filter: contrast(140%);
 }
 
+.af-btn:disabled {
+  cursor: wait;
+}
+
 .fa-trash-alt {
   color: var(--primary-red);
   font-size: 22px;

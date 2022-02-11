@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { moveList } from '../../../helpers/getData.js'
 import NextMovesFilters from '../shared-sub-components/NextMovesFilters.js'
 
 const MoveInfo = (props) => {
@@ -9,7 +8,7 @@ const MoveInfo = (props) => {
 
     function getMove(){
         let selectedMove = this.parentElement.querySelector("p").innerText
-        let currentMove = moveList.filter(x => x.move === selectedMove)
+        let currentMove = props.moveList.filter(x => x.move === selectedMove)
         if (currentMove.length > 1){
             currentMove = currentMove.filter(x => x.precursor === this.dataset.precursor)
         }
@@ -23,12 +22,12 @@ const MoveInfo = (props) => {
             let alias = props.move.alias
             if (alias.includes('precursor')){
                 alias = alias.split(' precursor ')
-                let foundMove = moveList.filter(x => {
+                let foundMove = props.moveList.filter(x => {
                     if (x.move === alias[0] && x.precursor === alias[1]) return x
                 })
                 alias = foundMove[0]
             } else {
-                alias = moveList.find(x => x.move === alias)
+                alias = props.moveList.find(x => x.move === alias)
             }           
             nextMovesRef = alias.nextMoves
         } else {
@@ -36,7 +35,7 @@ const MoveInfo = (props) => {
         }  
         const findMove = (move) => {
             let moveKey = move.split(' precursor ')
-            let nextOption = moveList.filter(x => x.move === moveKey[0])
+            let nextOption = props.moveList.filter(x => x.move === moveKey[0])
             if (nextOption.length > 1){
                 nextOption = nextOption.filter(x => x.precursor === moveKey[1])
             }

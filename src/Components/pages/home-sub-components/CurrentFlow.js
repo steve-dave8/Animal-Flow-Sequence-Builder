@@ -1,7 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react'
-
-import { moveList } from '../../../helpers/getData.js'
-
 import FormRandomFlow from './FormRandomFlow.js'
 
 const CurrentFlow = (props) => {
@@ -75,24 +72,24 @@ const CurrentFlow = (props) => {
                 let mirrorMove = x.move.replace('left', 'right')
                 if (x.precursor){
                     let mirrorPrecursor = x.precursor.replace('left', 'right')
-                    let replacement = moveList.find(x => {
+                    let replacement = props.moveList.find(x => {
                         if (x.move === mirrorMove && x.precursor === mirrorPrecursor) return x
                     })
                     mirrorFlow.push(replacement)
                 } else {
-                    let replacement = moveList.find(x => x.move === mirrorMove) 
+                    let replacement = props.moveList.find(x => x.move === mirrorMove) 
                     mirrorFlow.push(replacement)
                 }
             } else if (x.move.includes('right') || (x.precursor && x.precursor.includes('right'))){
                 let mirrorMove = x.move.replace('right', 'left')
                 if (x.precursor){
                     let mirrorPrecursor = x.precursor.replace('right', 'left')
-                    let replacement = moveList.find(x => {
+                    let replacement = props.moveList.find(x => {
                         if (x.move === mirrorMove && x.precursor === mirrorPrecursor) return x
                     })
                     mirrorFlow.push(replacement)
                 } else {
-                    let replacement = moveList.find(x => x.move === mirrorMove)
+                    let replacement = props.moveList.find(x => x.move === mirrorMove)
                     mirrorFlow.push(replacement)
                 }                
             } else {
@@ -102,6 +99,15 @@ const CurrentFlow = (props) => {
         props.setMove(mirrorFlow[mirrorFlow.length - 1])
         props.setFlow(mirrorFlow)
     }
+
+    const formRandFlow =    (<FormRandomFlow 
+                                flowLength={flowLength} 
+                                setFlowLength={setFlowLength}
+                                setRandFlowFlag={setRandFlowFlag}
+                                setMove={props.setMove}
+                                setFlow={props.setFlow}
+                                moveList={props.moveList}
+                            />)
 
     return (
         <section id="current-flow">
@@ -113,25 +119,13 @@ const CurrentFlow = (props) => {
                         from the options provided, select the next movement and repeat to build a flow
                         which will appear here. Alternately, use the form below to create a random flow.</p>  
                         <hr style={{width: "80%"}}/>
-                        <FormRandomFlow 
-                            flowLength={flowLength} 
-                            setFlowLength={setFlowLength}
-                            setRandFlowFlag={setRandFlowFlag}
-                            setMove={props.setMove}
-                            setFlow={props.setFlow}
-                        />
+                        {formRandFlow}
                         <hr style={{width: "80%"}}/>                    
                     </>
                     : <>
                         <p className="note">Note: removing a movement from the flow below will also remove all movements that follow it.</p>
                         <hr style={{width: "80%"}}/>
-                        <FormRandomFlow 
-                            flowLength={flowLength} 
-                            setFlowLength={setFlowLength} 
-                            setRandFlowFlag={setRandFlowFlag}
-                            setMove={props.setMove}
-                            setFlow={props.setFlow}
-                        />
+                        {formRandFlow}
                         <hr style={{width: "80%"}}/>
                         <div className="btn-row">
                             <p className="form-title">Options:</p>

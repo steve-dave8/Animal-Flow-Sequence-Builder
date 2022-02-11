@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import IndexList from './moveIndex-sub-components/IndexList'
 import MoveInfo from './moveIndex-sub-components/MoveInfo'
 
-const MoveIndex = () => {
+const MoveIndex = (props) => {
     let prevMove = JSON.parse(window.localStorage.getItem('moveInfo'))
 
     const [move, setMove] = useState(prevMove || null)
@@ -13,8 +13,8 @@ const MoveIndex = () => {
 
     return (
         <main id="move-index">
-            <IndexList setMove={setMove}/>
-            <MoveInfo move={move} setMove={setMove}/>
+            <IndexList setMove={setMove} moveList={props.moveList} />
+            <MoveInfo move={move} setMove={setMove} moveList={props.moveList} />
         </main>
     )
 }

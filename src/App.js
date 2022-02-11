@@ -7,9 +7,21 @@ import Home from './Components/pages/Home';
 import MoveIndex from './Components/pages/MoveIndex';
 import Login from './Components/pages/Login';
 
+const getMoveList = async () => {
+  const response = await fetch("http://localhost:4000/move-list", {method: "GET", mode: 'cors'});
+  const data = await response.json();
+  return data;
+};
+
 function App() {
+  const [moveList, setMoveList] = useState([])
+
   const [token, setToken] = useState(window.localStorage.getItem('AFtoken') || "")
   const [user, setUser] = useState(window.localStorage.getItem('currUser') || "")
+
+  useEffect(() => {
+    getMoveList().then(data => setMoveList(data))
+  }, [])
 
   useEffect(() => {
     token && window.localStorage.setItem('AFtoken', token)
@@ -24,9 +36,11 @@ function App() {
       <Navigation user={user} setUser={setUser} setToken={setToken} />
       <Switch>
         <Route exact path="/" >
-          <Home token={token} />
+          {(moveList.length > 0) && <Home token={token} moveList={moveList} />}        
         </Route>
-        <Route exact path="/move-index" component={MoveIndex} />
+        <Route exact path="/move-index" >
+          {(moveList.length > 0) && <MoveIndex moveList={moveList} />}
+        </Route>
         <Route exact path="/login">
           <Login setToken={setToken} setUser={setUser} />
         </Route>

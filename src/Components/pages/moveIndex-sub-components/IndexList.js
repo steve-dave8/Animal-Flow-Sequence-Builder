@@ -1,25 +1,23 @@
 import React, { useState } from 'react'
 
-import { moveList } from '../../../helpers/getData'
-
 const IndexList = (props) => {  
-    const uniqueMoveList = moveList.filter(x => !x.alias)
-    const SAmoveList = moveList.filter(x => x.component === "static activations")
+    const uniqueMoveList = props.moveList.filter(x => !x.alias)
+    const SAmoveList = props.moveList.filter(x => x.component === "static activations")
     const uniqueSAmoveList = SAmoveList.filter(x => !x.alias)
-    const FSSmoveList = moveList.filter(x => x.component === "form specific stretches")
+    const FSSmoveList = props.moveList.filter(x => x.component === "form specific stretches")
     const uniqueFSSmoveList = FSSmoveList.filter(x => !x.alias)
-    const STmoveList = moveList.filter(x => x.component === "switches and transitions")
+    const STmoveList = props.moveList.filter(x => x.component === "switches and transitions")
     const uniqueSTmoveList = STmoveList.filter(x => !x.alias) 
 
     const [tab, setTab] = useState("All")
-    const [index, setIndex] = useState(moveList)
+    const [index, setIndex] = useState(props.moveList)
 
     const changeTab = (e) => {
         const uniqueFilter = document.getElementById('unique-filter')
         switch (e.target.innerText){
             case "All":
                 setTab("All")
-                uniqueFilter.checked ? setIndex(uniqueMoveList) : setIndex(moveList)
+                uniqueFilter.checked ? setIndex(uniqueMoveList) : setIndex(props.moveList)
                 break
             case "SA":
                 setTab("SA")
@@ -42,7 +40,7 @@ const IndexList = (props) => {
         const uniqueFilter = document.getElementById('unique-filter')
         switch (tab){
             case "All":
-                uniqueFilter.checked ? setIndex(uniqueMoveList) : setIndex(moveList)
+                uniqueFilter.checked ? setIndex(uniqueMoveList) : setIndex(props.moveList)
                 break
             case "SA":
                 uniqueFilter.checked ? setIndex(uniqueSAmoveList) : setIndex(SAmoveList)
