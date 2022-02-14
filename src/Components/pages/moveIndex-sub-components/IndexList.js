@@ -62,7 +62,7 @@ const IndexList = (props) => {
     }
 
     return (
-        <section className="panel" style={{height: "550px"}}>
+        <section className="panel" style={{height: "fit-content"}}>
             <header id="index-header">
                 <h2 className="panel-title">Move Index</h2>
                 <div id="index-banner">

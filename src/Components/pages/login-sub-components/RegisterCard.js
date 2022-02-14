@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import Swal from 'sweetalert2'
+import Tooltip from '@mui/material/Tooltip'
 
 const RegisterCard = (props) => {
     const [name, setName] = useState("")
@@ -45,7 +46,9 @@ const RegisterCard = (props) => {
                 </div>
                 <div style={{display: "flex"}}>
                     <label htmlFor="password">Password:</label>
-                    <input required type="password" name="password" value={password} onChange={e => setPassword(e.target.value)} />
+                    <Tooltip arrow placement='right' title="password must be at least 6 characters long">
+                        <input required type="password" name="password" value={password} onChange={e => setPassword(e.target.value)} />
+                    </Tooltip>
                 </div>
                 <div>
                     <button type="submit" className='stylish-submit' style={{margin: "auto", display: "block"}}>Create Account</button>

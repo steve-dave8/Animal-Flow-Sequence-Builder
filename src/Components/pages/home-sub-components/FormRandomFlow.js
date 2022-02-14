@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import NextMovesFilters from '../shared-sub-components/NextMovesFilters.js'
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip'
+import { styled } from '@mui/material/styles'
 
 import { shuffle } from '../../../helpers/shuffle.js'
 
@@ -8,6 +10,14 @@ const getBasePositions = async () => {
     const data = await response.json();
     return data;
 };
+
+const CustomWidthTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+))({
+    [`& .${tooltipClasses.tooltip}`]: {
+      maxWidth: 200,
+    },
+});
 
 const FormRandomFlow = (props) => {
     const [basePositions, setBasePositions] = useState([])
@@ -163,7 +173,12 @@ const FormRandomFlow = (props) => {
                             <input id="flow-length" type="number" required min="3" max="30" placeholder="min 3, max 30" value={props.flowLength} onChange={e => props.setFlowLength(parseInt(e.target.value))}></input>
                         </div>
                         <div style={{marginLeft: "2rem"}}>
-                            <label>Reduce Repetition: </label>
+                            <label>
+                                <CustomWidthTooltip placement='top-start' arrow title="Within 4 movements the exact same move won't appear twice.">
+                                    <i className="fas fa-info-circle"></i>
+                                </CustomWidthTooltip>
+                                Reduce Repetition: 
+                            </label>
                             <input type="checkbox" style={{transform: "scale(1.5)"}} value={reduceReps} onClick={e => setReduceReps(e.target.checked)}/>
                         </div>
                     </div>

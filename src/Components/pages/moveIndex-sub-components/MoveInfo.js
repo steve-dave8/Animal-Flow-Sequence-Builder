@@ -108,7 +108,10 @@ const MoveInfo = (props) => {
                     </div>                
                     <div id="next-moves-panel">
                         <h3>Next Moves:</h3>
-                        <NextMovesFilters applyFilter={applyFilter} levelFilter={levelFilter} setLevelFilter={setLevelFilter} componentFilter={componentFilter} setComponentFilter={setComponentFilter}/>
+                        <form className="next-moves-filters" onSubmit={applyFilter}>
+                            <NextMovesFilters levelFilter={levelFilter} setLevelFilter={setLevelFilter} componentFilter={componentFilter} setComponentFilter={setComponentFilter}/>
+                            <button type="submit" className="af-btn">Apply</button>
+                        </form>
                         <div id="next-moves-container">
                             <ul id="next-moves-list">
                                 {nextMoves.length

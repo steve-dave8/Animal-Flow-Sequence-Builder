@@ -1,5 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react'
 import FormRandomFlow from './FormRandomFlow.js'
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip'
+import { styled } from '@mui/material/styles'
+
+const HtmlTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+))({
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+      color: 'rgba(0, 0, 0, 0.87)'
+    },
+});
 
 const CurrentFlow = (props) => {
     const [flowLength, setFlowLength] = useState("")
@@ -128,7 +139,21 @@ const CurrentFlow = (props) => {
                         {formRandFlow}
                         <hr style={{width: "80%"}}/>
                         <div className="btn-row">
-                            <p className="form-title">Options:</p>
+                            <HtmlTooltip placement='bottom' title={
+                                <>
+                                   <strong>Reset:</strong> clears the current flow (cannot be undone).
+                                   <br/>
+                                   <strong>Mirror:</strong> swaps left and right.
+                                   <br/>
+                                   <strong>Callout:</strong> opens a modal with the full callout text and its associated shorthand form.
+                                </>
+                            }
+                            >
+                                <p className="form-title">                               
+                                    <i className="fas fa-info-circle"></i>
+                                    Options:                               
+                                </p>
+                            </HtmlTooltip>
                             <button type="button" className='reset-btn' onClick={reset}><span>Reset</span></button>
                             <button type="button" className='mirror-btn' onClick={mirror}><span>Mirror</span></button>
                         </div>

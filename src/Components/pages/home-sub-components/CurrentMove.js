@@ -42,7 +42,6 @@ const CurrentMove = (props) => {
         } else {
             nextMovesRef = props.move.nextMoves 
         }  
-        console.log(props.moveList)
         const findMove = (move) => {
             let moveKey = move.split(' precursor ')
             let nextOption = props.moveList.filter(x => x.move === moveKey[0])

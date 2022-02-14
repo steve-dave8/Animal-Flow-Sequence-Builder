@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Swal from 'sweetalert2'
+import Tooltip from '@mui/material/Tooltip'
 
 const SavedFlows = (props) => {
     const prevSelFlow = window.localStorage.getItem('prevSelFlow')
@@ -117,6 +118,7 @@ const SavedFlows = (props) => {
     }
 
     const save = async () => {
+        if (props.flow.length < 3) return
         setUnsaved(false)
         if (props.token) {
             await fetch (`${process.env.REACT_APP_BACKEND}/users/saved-flows/${selFlow}`, {
@@ -191,6 +193,7 @@ const SavedFlows = (props) => {
     }
 
     const saveAs = () => {
+        if (props.flow.length < 3) return
         Swal.fire({
             input: 'text',
             titleText: 'Save As',
@@ -223,11 +226,16 @@ const SavedFlows = (props) => {
     return (
         <div id="flow-management">
             <div>
-                <p style={{display: 'inline-block'}}>Save your current flow: </p>
+                <p style={{display: 'inline-block'}}>
+                    <Tooltip placement='top' title='Saved flows must contain at least 3 movements.'>
+                        <i className="fas fa-info-circle"></i>
+                    </Tooltip>
+                    Save your current flow: 
+                </p>
                 <button type='button' disabled={!selFlow || props.flow.length < 3} className='btn-base save-btn' onClick={save}>Save</button>
                 <button type='button' disabled={props.flow.length < 3} className='btn-base save-btn' onClick={saveAs}>Save As</button>
             </div>
-            <div style={{paddingLeft: '4rem'}}>
+            <div>
                 <p className='para-manage-flow'>Select a saved flow: </p>
                 <select value={selFlow} style={{margin: "0 10px"}} onChange={assignFlow}>
                     {savedFlows.length

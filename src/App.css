@@ -141,6 +141,13 @@
   cursor: pointer;
 }
 
+.fa-info-circle {
+  padding: 0 5px;
+  cursor: help;
+  transform: scale(1.1);
+  line-height: 0.5;
+}
+
 .stylish-submit {
   font-size: 1rem;
   padding: 4px 8px;
@@ -273,8 +280,9 @@ main#move-index {
 div#flow-management {
   background-color: var(--primary-grey);
   padding: 1px 1rem 0 1rem;
-  display: grid;
-  grid-template-columns: 22rem 1fr;
+  display: flex;
+  flex-wrap: wrap;
+  grid-column-gap: 4rem;
 }
 
 div#flow-management .save-btn {
@@ -511,9 +519,10 @@ section#current-flow {
 
 .btn-row {
   display: flex;
-  justify-content: space-evenly;
   margin-bottom: 16px;
   align-items: baseline;
+  grid-gap: 3rem;
+  flex-wrap: wrap;
 }
 
 #current-flow-container {
@@ -658,7 +667,6 @@ section#current-flow {
 }
 
 #index-container {
-  height: 380px;
   background-color: white;
 }
 
@@ -668,7 +676,7 @@ section#current-flow {
   padding-inline-start: 0;
   padding: 10px;
   overflow: auto;
-  max-height: 360px;
+  max-height: 450px;
   margin: 0;
 }
 
