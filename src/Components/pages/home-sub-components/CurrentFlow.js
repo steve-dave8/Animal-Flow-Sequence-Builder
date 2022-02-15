@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
+import '../../../styles/callout-button.css'
 import FormRandomFlow from './FormRandomFlow.js'
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip'
 import { styled } from '@mui/material/styles'
+import Modal from '@mui/material/Modal'
 
 const HtmlTooltip = styled(({ className, ...props }) => (
     <Tooltip {...props} classes={{ popper: className }} />
@@ -15,6 +17,9 @@ const HtmlTooltip = styled(({ className, ...props }) => (
 const CurrentFlow = (props) => {
     const [flowLength, setFlowLength] = useState("")
     const [randFlowFlag, setRandFlowFlag] = useState(false)
+    const [open, setOpen] = useState(false)
+    const [callout, setCallout] = useState("")
+    const [shorthand, setShorthand] = useState("")
 
     const currFlowList = useRef()
 
@@ -111,6 +116,54 @@ const CurrentFlow = (props) => {
         props.setFlow(mirrorFlow)
     }
 
+    const calloutDisplay = () => {
+        setOpen(true)
+        let callout = []
+        let shorthand = []
+
+        props.flow.forEach(x => {
+            if (callout.length) {
+                if (x.move.search(/^(in)?to/g) !== -1) {
+                    callout.push(" ")
+                }
+                else {
+                    callout.push(", ")
+                }
+            } 
+            callout.push(x.move)
+
+            let cosh = x.callout.shorthand
+            if (shorthand.length) {
+                if (cosh) {
+                    if (cosh.search("J -") !== -1 || cosh.search("L -") !== -1) {
+                        shorthand.push(", ")
+                    }
+                    else if (cosh.search("- ") !== -1) {
+                        shorthand.push(" ")
+                    }
+                    else {
+                        shorthand.push(", ")
+                    }
+                    shorthand.push(cosh)
+                } else {
+                    shorthand.push(", ", x.move)
+                }
+            } 
+            else {
+                cosh ? shorthand.push(cosh, " (root)") : shorthand.push(x.move)
+            }
+        })
+        
+        setCallout(callout.join(''))
+        setShorthand(shorthand.join(''))
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+        setCallout("")
+        setShorthand("")
+    }
+
     const formRandFlow =    (<FormRandomFlow 
                                 flowLength={flowLength} 
                                 setFlowLength={setFlowLength}
@@ -156,6 +209,17 @@ const CurrentFlow = (props) => {
                             </HtmlTooltip>
                             <button type="button" className='reset-btn' onClick={reset}><span>Reset</span></button>
                             <button type="button" className='mirror-btn' onClick={mirror}><span>Mirror</span></button>
+                            <button type="button" className='callout-btn' onClick={calloutDisplay}>
+                                <span>
+                                    <span className='callout-let1'>C</span>
+                                    <span className='callout-let2'>a</span>
+                                    <span className='callout-let3'>l</span>
+                                    <span className='callout-let4'>l</span>
+                                    <span className='callout-let5'>o</span>
+                                    <span className='callout-let6'>u</span>
+                                    <span className='callout-let7'>t</span>
+                                </span>
+                            </button>
                         </div>
                         <div id="current-flow-container">
                             <ul id="current-flow-list" ref={currFlowList}>
@@ -177,6 +241,23 @@ const CurrentFlow = (props) => {
                     </>
                 }
             </div>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="callout-modal"
+                aria-describedby="animal-flow--sequence-callout"
+            >
+                <div className='callout-modal'>
+                    <div className='callout'>
+                        <h3>Callout</h3>
+                        <p>{callout}</p>                       
+                    </div>
+                    <div className='shorthand'>
+                        <h3>Shorthand</h3>
+                        <p>{shorthand}</p>
+                    </div>
+                </div>
+            </Modal>
         </section>
     )
 }

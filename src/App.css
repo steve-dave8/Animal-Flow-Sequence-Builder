@@ -588,6 +588,45 @@ section#current-flow {
   transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
 }
 
+.callout-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #999;
+  width: 70vw;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: center;
+  grid-gap: 1.5rem;
+  border: 4px var(--primary-red) solid;
+  box-shadow: 5px 5px 5px #121212;
+}
+
+.callout-modal h3 {
+  text-align: center;
+  text-decoration: underline;
+}
+
+.callout-modal p {
+  line-height: 2;
+  max-height: 70vh;
+  overflow: auto;
+}
+
+.callout-modal > div {
+  padding: 0 1rem;
+  background-color: #fffafa;
+}
+
+.callout {
+  max-width: 60%;
+}
+
+.shorthand {
+  max-width: calc(40% - 1.5rem); /*subtract grid gap*/
+}
+
     /*Form Random Flow*/
 .form-grid {
   display: grid;
@@ -838,6 +877,21 @@ main#login-page {
   section#current-flow,
   section.panel {
     width: 60%;
+  }
+}
+
+@media screen and (max-width: 900px){
+  .callout-modal {
+    flex-direction: column;
+  }
+
+  .callout-modal p {
+    max-height: 35vh;
+  }
+
+  .callout,
+  .shorthand {
+    max-width: none;
   }
 }
 

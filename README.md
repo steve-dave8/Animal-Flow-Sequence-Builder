@@ -38,7 +38,6 @@ For more information on React & Environment Variables, see [documentation](https
 ## Project Status
 ### Upcoming
 * Ongoing addition of movements to the backend.
-* Addition of callout shorthand.
 
 ### Bugs
 * If a user was logged in and selected a saved flow from their account then after logging out the 'delete' and 'clear' icons in the SavedFlows component are still visible. The selected flow is also still visible even though now it can not be reselected while logged out.  
