@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 
+import '../../styles/header.css'
 import claws from '../../assets/Claws-Black.png'
 
 const Navigation = (props) => {

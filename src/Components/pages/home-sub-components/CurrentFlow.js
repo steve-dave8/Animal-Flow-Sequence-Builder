@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
+import '../../../styles/home-page/current-flow.css'
 import '../../../styles/callout-button.css'
 import FormRandomFlow from './FormRandomFlow.js'
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip'
@@ -153,7 +154,7 @@ const CurrentFlow = (props) => {
                 cosh ? shorthand.push(cosh, " (root)") : shorthand.push(x.move)
             }
         })
-        
+
         setCallout(callout.join(''))
         setShorthand(shorthand.join(''))
     }
@@ -202,7 +203,7 @@ const CurrentFlow = (props) => {
                                 </>
                             }
                             >
-                                <p className="form-title">                               
+                                <p style={{fontWeight: 'bold'}}>                               
                                     <i className="fas fa-info-circle"></i>
                                     Options:                               
                                 </p>

@@ -1,0 +1,108 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  background-color: #121212;
+  color: white;
+}
+
+#loginfo {
+  min-width: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#loginfo > div {
+  margin: 0.5rem;
+}
+
+#loginfo span {
+  text-align: center;
+  width: 100%;
+  display: inline-block;
+}
+
+#userName {
+  color: #c4a630;
+  font-style: italic;
+  margin-top: 5px;
+  font-weight: bold;
+  font-size: 1.05rem;
+}
+
+h1#main-title {
+  text-align: center;
+  width: 100%;
+  margin: 1.8rem 0;
+  line-height: 1.7;
+}
+
+#abbr-title {
+  display: none;
+}
+
+#letA {
+  display: inline-block;
+  transform: translateY(-5px);
+  padding-right: 3px;
+}
+
+#letF {
+  display: inline-block;
+  transform: translateY(5px);
+}
+
+.claws-menu {
+  height: 7rem;
+  transform: rotate(40deg);
+  filter: invert(1);
+  cursor: pointer;
+  margin-right: 30px;
+}
+
+nav#topnav {
+  display: flex;
+  justify-content: flex-end;
+  background-color: var(--primary-grey);
+  z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  width: 100%;
+}
+
+nav#topnav > div {
+  display: flex;
+}
+
+.btn-page {
+  border: none;
+  display: block;
+  height: 54px;
+  cursor: pointer;
+  width: 100px;
+  border-left: 1px solid black;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.btn-page:hover {
+  color: white;
+  background-color: #e01313c4;
+}
+
+.open-menu {
+  transform: rotate(0deg);
+  filter: invert(0.8);
+  transition: all 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media screen and (max-width: 900px){
+  #abbr-title {
+    display: inline;
+  }
+
+  #full-title {
+    display: none;
+  }
+}

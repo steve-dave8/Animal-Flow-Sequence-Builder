@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react'
+import '../../styles/login-page.css'
 import { useHistory } from 'react-router-dom'
 import LoginCard from './login-sub-components/LoginCard'
 import RegisterCard from './login-sub-components/RegisterCard'

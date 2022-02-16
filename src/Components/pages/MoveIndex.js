@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import '../../styles/move-index-page.css'
 import IndexList from './moveIndex-sub-components/IndexList'
 import MoveInfo from './moveIndex-sub-components/MoveInfo'
 

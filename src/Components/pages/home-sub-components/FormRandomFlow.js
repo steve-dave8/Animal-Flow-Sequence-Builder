@@ -182,11 +182,11 @@ const FormRandomFlow = (props) => {
                             <input type="checkbox" style={{transform: "scale(1.5)"}} value={reduceReps} onClick={e => setReduceReps(e.target.checked)}/>
                         </div>
                     </div>
-                    <div className="next-moves-filters" style={{color: "white"}}>
+                    <div className="next-moves-filters" style={{color: "white", marginLeft: '-5px'}}>
                         <NextMovesFilters levelFilter={levelFilter} setLevelFilter={setLevelFilter} componentFilter={componentFilter} setComponentFilter={setComponentFilter}/>
                     </div>
                 </section>
-                <button type="submit" className="af-btn" disabled={!basePositions.length}>Submit</button>
+                <button type="submit" style={{margin: '0 auto'}} className="af-btn" disabled={!basePositions.length}>Submit</button>
             </div>
             <div className={`error ${!error ? "hidden" : ""}`}>{error}</div>
         </form> 

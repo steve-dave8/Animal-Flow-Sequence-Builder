@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import '../../../styles/home-page/current-move.css'
 import NextMovesFilters from '../shared-sub-components/NextMovesFilters.js'
 
 const CurrentMove = (props) => {
@@ -128,7 +129,7 @@ const CurrentMove = (props) => {
                 </div>                
                 <div id="next-moves-panel">
                     <h3>Next Moves:</h3>
-                    <form className="next-moves-filters" onSubmit={applyFilter}>
+                    <form style={{marginLeft: '1rem'}} className="next-moves-filters" onSubmit={applyFilter}>
                         <NextMovesFilters levelFilter={levelFilter} setLevelFilter={setLevelFilter} componentFilter={componentFilter} setComponentFilter={setComponentFilter}/>
                         <button type="submit" className="af-btn">Apply</button>
                     </form>
