@@ -23,14 +23,14 @@ const FormRandomFlow = (props) => {
     const [basePositions, setBasePositions] = useState([])
 
     const [error, setError] = useState(null)
-    const [levelFilter, setLevelFilter] = useState("")
+    const [levelFilter, setLevelFilter] = useState([])
     const [componentFilter, setComponentFilter] = useState("")
     const [reduceReps, setReduceReps] = useState(false)
 
     const genRandomFlow = () => {
         let randomFlow = []
         let basePositionsDeck = basePositions.slice()
-        if (levelFilter === "2") {
+        if (levelFilter.length === 1 && levelFilter[0] === "2") {
             basePositionsDeck.splice(basePositionsDeck.findIndex(x => x.base === "set static beast"), 1) //no level 2 movements begin in this position
         }
         shuffle(basePositionsDeck)
@@ -72,14 +72,12 @@ const FormRandomFlow = (props) => {
             })
 
             //Check for and apply filters:
-            if (levelFilter || componentFilter){          
+            if (levelFilter.length || componentFilter){          
                 let baseMoves = nextMovesDeck.filter(x => {
-                    if (x.component === "static activations"){
-                        return x
-                    }
+                    if (x.component === "static activations") return x
                 })
-                if (levelFilter){
-                    nextMovesDeck = nextMovesDeck.filter(x => x.level === levelFilter)
+                if (levelFilter.length){
+                    nextMovesDeck = nextMovesDeck.filter(x => levelFilter.includes(x.level))
                 }
                 if (componentFilter){
                     nextMovesDeck = nextMovesDeck.filter(x => x.component === componentFilter)
@@ -183,7 +181,7 @@ const FormRandomFlow = (props) => {
                         </div>
                     </div>
                     <div className="next-moves-filters" style={{color: "white", marginLeft: '-5px'}}>
-                        <NextMovesFilters levelFilter={levelFilter} setLevelFilter={setLevelFilter} componentFilter={componentFilter} setComponentFilter={setComponentFilter}/>
+                        <NextMovesFilters instance="FormRandomFlow" levelFilter={levelFilter} setLevelFilter={setLevelFilter} componentFilter={componentFilter} setComponentFilter={setComponentFilter}/>
                     </div>
                 </section>
                 <button type="submit" style={{margin: '0 auto'}} className="af-btn" disabled={!basePositions.length}>Submit</button>

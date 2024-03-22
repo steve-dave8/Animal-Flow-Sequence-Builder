@@ -3,7 +3,7 @@ import '../../../styles/home-page/current-move.css'
 import NextMovesFilters from '../shared-sub-components/NextMovesFilters.js'
 
 const CurrentMove = (props) => {
-    const [levelFilter, setLevelFilter] = useState("")
+    const [levelFilter, setLevelFilter] = useState([])
     const [componentFilter, setComponentFilter] = useState("")
     const [nextMoves, setNextMoves] = useState([])
 
@@ -59,14 +59,14 @@ const CurrentMove = (props) => {
                 nextMovesList.push(foundMove)
             }
         })
-        if (levelFilter || componentFilter){          
+        if (levelFilter.length || componentFilter){          
             let baseMoves = nextMovesList.filter(x => {
                 if (x.component === "static activations"){
                     return x
                 }
             })
-            if (levelFilter){
-                nextMovesList = nextMovesList.filter(x => x.level === levelFilter)
+            if (levelFilter.length){
+                nextMovesList = nextMovesList.filter(x => levelFilter.includes(x.level))
             }
             if (componentFilter){
                 nextMovesList = nextMovesList.filter(x => x.component === componentFilter)
@@ -130,7 +130,7 @@ const CurrentMove = (props) => {
                 <div id="next-moves-panel">
                     <h3>Next Moves:</h3>
                     <form style={{marginLeft: '1rem'}} className="next-moves-filters" onSubmit={applyFilter}>
-                        <NextMovesFilters levelFilter={levelFilter} setLevelFilter={setLevelFilter} componentFilter={componentFilter} setComponentFilter={setComponentFilter}/>
+                        <NextMovesFilters instance="CurrentMove" levelFilter={levelFilter} setLevelFilter={setLevelFilter} componentFilter={componentFilter} setComponentFilter={setComponentFilter}/>
                         <button type="submit" className="af-btn">Apply</button>
                     </form>
                     <div id="next-moves-container">

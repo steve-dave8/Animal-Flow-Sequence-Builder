@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip'
 import { styled } from '@mui/material/styles'
 
@@ -12,6 +12,54 @@ const HtmlTooltip = styled(({ className, ...props }) => (
 });
   
 const NextMovesFilters = (props) => {
+    const levelOptions = useRef()
+    const levelArrow = useRef()
+
+    function toggleLevelMenu(){
+        levelOptions.current.classList.toggle("hidden")
+        levelArrow.current.classList.toggle("rotate180")
+    }
+
+    const lvAll = useRef()
+    const lv1 = useRef()
+    const lv2 = useRef()
+    const lv3 = useRef()
+
+    function manageLevelFilter(e){
+        const selection = e.target.value
+
+        const clearLevels = () => {
+            lv1.current.checked = false
+            lv2.current.checked = false
+            lv3.current.checked = false
+        }
+
+        if (selection === "all") {
+            clearLevels()
+            props.setLevelFilter([])
+            return
+        }
+
+        const newLevelFilter = [...props.levelFilter]
+
+        if (e.target.checked) {
+            // if all three levels are selected then empty the array
+            if (newLevelFilter.length === 2) {
+                newLevelFilter.length = 0
+                lvAll.current.checked = true
+                clearLevels()
+            } else {
+                newLevelFilter.push(selection)
+                lvAll.current.checked = false
+            }
+        } else {
+            const index = newLevelFilter.indexOf(selection)
+            if (index > -1) newLevelFilter.splice(index, 1)
+        }
+
+        props.setLevelFilter(newLevelFilter)
+    }
+
     return (
         <>
             <p style={{textDecoration: "underline"}} >
@@ -20,8 +68,6 @@ const NextMovesFilters = (props) => {
                         <strong>Static Activations</strong> cannot be filtered out as you can't have a flow without the base positions.
                         <br/>
                         <strong>Form Specific Stretches</strong> only appear in Level 1.
-                        <br/>
-                        <strong>Traveling Forms</strong> only start appearing in flows in Level 2.
                     </>
                 }
                 >
@@ -29,14 +75,27 @@ const NextMovesFilters = (props) => {
                 </HtmlTooltip>
                 Filters: 
             </p>
-            <div>
-                <label htmlFor="level-filter">Level: </label>
-                <br/>
-                <select style={{textAlign: "center"}} id="level-filter" value={props.levelFilter} onChange={e => props.setLevelFilter(e.target.value)}>
-                    <option value="">All Levels</option>
-                    <option value="1">Level 1</option>
-                    <option value="2">Level 2</option>
-                </select>
+            <div className="filter-menu">
+                <button type="button" onClick={toggleLevelMenu}>Level <i className="fas fa-chevron-down" ref={levelArrow}></i></button>
+                <div className="filter-options hidden" ref={levelOptions}>
+                    <div>
+                        <input type="checkbox" name="all-levels" id={`all-levels--${props.instance}`} value="all" defaultChecked ref={lvAll} onChange={(e) => manageLevelFilter(e)}/>
+                        <label htmlFor={`all-levels--${props.instance}`}>All Levels</label>
+                    </div>
+                    <hr/>
+                    <div>
+                        <input type="checkbox" name="level-1" id={`level-1--${props.instance}`} value="1" ref={lv1} onChange={(e) => manageLevelFilter(e)}/>
+                        <label htmlFor={`level-1--${props.instance}`}>Level 1</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="level-2" id={`level-2--${props.instance}`} value="2" ref={lv2} onChange={(e) => manageLevelFilter(e)}/>
+                        <label htmlFor={`level-2--${props.instance}`}>Level 2</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="level-3" id={`level-3--${props.instance}`} value="3" ref={lv3} onChange={(e) => manageLevelFilter(e)}/>
+                        <label htmlFor={`level-3--${props.instance}`}>Level 3</label>
+                    </div>
+                </div>
             </div>
             <div>
                 <label htmlFor="component-filter">Component: </label>

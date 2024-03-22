@@ -4,6 +4,7 @@
   > Home page
     > Saved Flows
     > Current Move
+    > NextMovesFilters
   > Media Queries
 */
 
@@ -53,6 +54,10 @@
   text-indent: 2rem;
   margin-top: 1rem;
   line-height: 1.5;
+}
+
+.rotate180 {
+  transform: rotate(180deg);
 }
 
 /*only found in SavedFlows component*/
@@ -313,6 +318,24 @@ section#current-flow {
 
 .para-current-move::after {
   transform: translateY(14px) rotate(10deg);
+}
+
+  /*NextMovesFilters*/
+.filter-menu {
+  position: relative;
+}
+
+.filter-options {
+  position: absolute;
+  width: max-content;
+  background-color: rgb(255, 255, 255);
+  padding: 2px 8px 5px 2px;
+  color: #000000;
+}
+
+.filter-options hr {
+  margin: 3px auto auto auto;
+  width: 100%;
 }
 
 /*Media Queries*/

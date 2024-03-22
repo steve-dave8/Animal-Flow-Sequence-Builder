@@ -9,7 +9,6 @@ import Login from './Components/pages/Login';
 import Loading from './Components/shared/Loading';
 
 const getMoveList = async () => {
-  console.log(process.env.BACKEND_URL)
   const response = await fetch(`${process.env.REACT_APP_BACKEND}/move-list`, {method: "GET", mode: 'cors'});
   const data = await response.json();
   console.log({response, data})
