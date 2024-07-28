@@ -24,7 +24,7 @@ const FormRandomFlow = (props) => {
 
     const [error, setError] = useState(null)
     const [levelFilter, setLevelFilter] = useState([])
-    const [componentFilter, setComponentFilter] = useState("")
+    const [componentFilter, setComponentFilter] = useState([])
     const [reduceReps, setReduceReps] = useState(false)
 
     const genRandomFlow = () => {
@@ -72,15 +72,15 @@ const FormRandomFlow = (props) => {
             })
 
             //Check for and apply filters:
-            if (levelFilter.length || componentFilter){          
+            if (levelFilter.length || componentFilter.length){          
                 let baseMoves = nextMovesDeck.filter(x => {
                     if (x.component === "static activations") return x
                 })
                 if (levelFilter.length){
                     nextMovesDeck = nextMovesDeck.filter(x => levelFilter.includes(x.level))
                 }
-                if (componentFilter){
-                    nextMovesDeck = nextMovesDeck.filter(x => x.component === componentFilter)
+                if (componentFilter.length){
+                    nextMovesDeck = nextMovesDeck.filter(x => componentFilter.includes(x.component))
                 }
                 nextMovesDeck = baseMoves.concat(nextMovesDeck)
             }

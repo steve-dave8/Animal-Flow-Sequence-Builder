@@ -321,11 +321,13 @@ section#current-flow {
 }
 
   /*NextMovesFilters*/
-.filter-menu {
+.filter-menu,
+.component-menu {
   position: relative;
 }
 
-.filter-options {
+.filter-options,
+.component-options {
   position: absolute;
   width: max-content;
   background-color: rgb(255, 255, 255);
@@ -333,7 +335,8 @@ section#current-flow {
   color: #000000;
 }
 
-.filter-options hr {
+.filter-options hr,
+.component-options hr {
   margin: 3px auto auto auto;
   width: 100%;
 }

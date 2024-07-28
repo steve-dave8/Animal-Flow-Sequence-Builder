@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import NextMovesFilters from '../shared-sub-components/NextMovesFilters.js'
 
 const MoveInfo = (props) => {
-    const [levelFilter, setLevelFilter] = useState("")
-    const [componentFilter, setComponentFilter] = useState("")
+    const [levelFilter, setLevelFilter] = useState([])
+    const [componentFilter, setComponentFilter] = useState([])
     const [nextMoves, setNextMoves] = useState([])
 
     function getMove(){
@@ -49,17 +49,17 @@ const MoveInfo = (props) => {
                 nextMovesList.push(foundMove)
             }
         })
-        if (levelFilter || componentFilter){          
+        if (levelFilter.length || componentFilter.length){          
             let baseMoves = nextMovesList.filter(x => {
                 if (x.component === "static activations"){
                     return x
                 }
             })
-            if (levelFilter){
-                nextMovesList = nextMovesList.filter(x => x.level === levelFilter)
+            if (levelFilter.length){
+                nextMovesList = nextMovesList.filter(x => levelFilter.includes(x.level))
             }
-            if (componentFilter){
-                nextMovesList = nextMovesList.filter(x => x.component === componentFilter)
+            if (componentFilter.length){
+                nextMovesList = nextMovesList.filter(x => componentFilter.includes(x.component))
             }
             nextMovesList = baseMoves.concat(nextMovesList)
         }

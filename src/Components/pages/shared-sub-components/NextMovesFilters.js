@@ -14,16 +14,28 @@ const HtmlTooltip = styled(({ className, ...props }) => (
 const NextMovesFilters = (props) => {
     const levelOptions = useRef()
     const levelArrow = useRef()
+    const componentOptions = useRef()
+    const componentArrow = useRef()
 
     function toggleLevelMenu(){
         levelOptions.current.classList.toggle("hidden")
         levelArrow.current.classList.toggle("rotate180")
     }
 
+    function toggleComponentMenu() {
+        componentOptions.current.classList.toggle("hidden")
+        componentArrow.current.classList.toggle("rotate180")
+    }
+
     const lvAll = useRef()
     const lv1 = useRef()
     const lv2 = useRef()
     const lv3 = useRef()
+
+    const componentAll = useRef()
+    const componentFSS = useRef()
+    const componentST = useRef()
+    const componentTF = useRef()
 
     function manageLevelFilter(e){
         const selection = e.target.value
@@ -58,6 +70,41 @@ const NextMovesFilters = (props) => {
         }
 
         props.setLevelFilter(newLevelFilter)
+    }
+
+    function manageComponentFilter(e){
+        const selection = e.target.value
+
+        const clearComponents = () => {
+            componentFSS.current.checked = false
+            componentST.current.checked = false
+            componentTF.current.checked = false
+        }
+
+        if (selection === "all") {
+            clearComponents()
+            props.setComponentFilter([])
+            return
+        }
+
+        const newComponentFilter = [...props.componentFilter]
+
+        if (e.target.checked) {
+            // if all three component types are selected then empty the array
+            if (newComponentFilter.length === 2) {
+                newComponentFilter.length = 0
+                componentAll.current.checked = true
+                clearComponents()
+            } else {
+                newComponentFilter.push(selection)
+                componentAll.current.checked = false
+            }
+        } else {
+            const index = newComponentFilter.indexOf(selection)
+            if (index > -1) newComponentFilter.splice(index, 1)
+        }
+
+        props.setComponentFilter(newComponentFilter)
     }
 
     return (
@@ -97,15 +144,30 @@ const NextMovesFilters = (props) => {
                     </div>
                 </div>
             </div>
-            <div>
-                <label htmlFor="component-filter">Component: </label>
-                <br/>
-                <select style={{textAlign: "center"}} id="component-filter" value={props.componentFilter} onChange={e => props.setComponentFilter(e.target.value)}>
-                    <option value="">All Components</option>
-                    <option value="form specific stretches">Form Specific Stretches</option>
-                    <option value="switches and transitions">Switches & Transitions</option>
-                </select>
-            </div>                                        
+
+            <div className="component-menu">
+                <button type="button" onClick={toggleComponentMenu}>Component <i className="fas fa-chevron-down" ref={componentArrow}></i></button>
+                <div className="component-options hidden" ref={componentOptions}>
+                    <div>
+                        <input type="checkbox" name="all-components" id={`all-components--${props.instance}`} value="all" defaultChecked ref={componentAll} onChange={(e) => manageComponentFilter(e)}/>
+                        <label htmlFor={`all-components--${props.instance}`}>All Components</label>
+                    </div>
+                    <hr/>
+                    <div>
+                        <input type="checkbox" name="componentFSS" id={`componentFSS--${props.instance}`} value="form specific stretches" ref={componentFSS} onChange={(e) => manageComponentFilter(e)}/>
+                        <label htmlFor={`componentFSS--${props.instance}`}>Form Specific Stretches</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="componentST" id={`componentST--${props.instance}`} value="switches and transitions" ref={componentST} onChange={(e) => manageComponentFilter(e)}/>
+                        <label htmlFor={`componentST--${props.instance}`}>Switches and Transitions</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" name="componentTF" id={`componentTF--${props.instance}`} value="traveling forms" ref={componentTF} onChange={(e) => manageComponentFilter(e)}/>
+                        <label htmlFor={`componentTF--${props.instance}`}>Traveling Forms</label>
+                    </div>
+                </div>
+            </div>
+                                        
         </>
     )
 }
