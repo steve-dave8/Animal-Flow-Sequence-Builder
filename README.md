@@ -1,7 +1,7 @@
 # Animal Flow Sequence Builder
 
 ## Description
-Created using React JS, this is an app for designing Animal Flow sequences. It uses my [Animal Flow Moves API](https://github.com/steve-dave8/Animal-Flow-Moves-API) on the backend. This app is meant for personal use and as a temporary project to showcase in my coding portfolio as I look for work as a developer.
+Created using React JS, this is an app for designing Animal Flow sequences. It uses my [Animal Flow Moves API](https://github.com/steve-dave8/Animal-Flow-Moves-API) on the backend. This app is meant for personal use and as a project to showcase in my coding portfolio.
 
 ### Features
 * Over 100 movements
@@ -32,13 +32,17 @@ Created using React JS, this is an app for designing Animal Flow sequences. It u
 * Frontend: this requires setting the variable `REACT_APP_BACKEND` whose value should be the url for the backend. For running locally the value can be something like `http://localhost:4000` depending on which port you set for the backend. You will need to use one of the following:  
 For MacOS: `REACT_APP_BACKEND=http://localhost:4000 npm start`    
 For Windows (command line; cmd.exe): `set "REACT_APP_BACKEND=http://localhost:4000" && npm start`    
-For Windows (powershell): `($env:REACT_APP_BACKEND = "http://localhost:4000") -and (npm start)`    
+For Windows (powershell): `($env:REACT_APP_BACKEND = "http://localhost:4000") -and (npm start)`   
+ 
 For more information on React & Environment Variables, see [documentation](https://facebook.github.io/create-react-app/docs/adding-custom-environment-variables#adding-temporary-environment-variables-in-your-shell).
 
 ## Project Status
-I'm finished with this project for now aside from any small updates. There are a few larger items I would like to add but I would need further knowledge/help to implement them:
-* addition of traveling forms to the move list. I'm not clear on the callout language for these.
-* addition of level 3 movements to the move list. Level 3 is a new addition to Animal Flow that replaces the Advanced Flow Design workshop. I am only level 2 certified.
+Further updates:
+* Add section to search for moves
+* Add tab to find preceding moves
+* Addition of more movement combos
+
+There are some other item(s) I would like to add but I would need further knowledge/help to implement them:
 * professional images for all of the movements.
 
 ### Bugs
