@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef } from 'react'
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip'
 import { styled } from '@mui/material/styles'
 
@@ -110,16 +110,18 @@ const NextMovesFilters = (props) => {
     return (
         <>
             <p style={{textDecoration: "underline"}} >
-                <HtmlTooltip placement='top' title={
-                    <>
-                        <strong>Static Activations</strong> cannot be filtered out as you can't have a flow without the base positions.
-                        <br/>
-                        <strong>Form Specific Stretches</strong> only appear in Level 1.
-                    </>
+                {props.instance !== "Search" &&
+                    <HtmlTooltip placement='top' title={
+                        <>
+                            <strong>Static Activations</strong> cannot be filtered out as you can't have a flow without the base positions.
+                            <br/>
+                            <strong>Form Specific Stretches</strong> only appear in Level 1.
+                        </>
+                    }
+                    >
+                        <i className="fas fa-info-circle"></i>
+                    </HtmlTooltip>
                 }
-                >
-                    <i className="fas fa-info-circle"></i>
-                </HtmlTooltip>
                 Filters: 
             </p>
             <div className="filter-menu">

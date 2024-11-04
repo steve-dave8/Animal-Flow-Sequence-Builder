@@ -38,7 +38,6 @@ For more information on React & Environment Variables, see [documentation](https
 
 ## Project Status
 Further updates:
-* Add section to search for moves
 * Add tab to find preceding moves
 * Addition of more movement combos
 
